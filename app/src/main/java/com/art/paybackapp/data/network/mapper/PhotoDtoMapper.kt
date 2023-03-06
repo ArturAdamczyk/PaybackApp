@@ -7,7 +7,18 @@ import com.art.paybackapp.domain.model.PhotoDomainData
 class PhotoDtoMapper : Mapper<PhotoDto, PhotoDomainData>() {
 
     override fun mapFrom(from: PhotoDto): PhotoDomainData {
-        TODO("Not yet implemented")
+        return PhotoDomainData(
+            id = from.id,
+            tags = from.tags,
+            previewUrl = from.previewUrl,
+            largeImageURl = from.largeImageURl,
+            fullHDURL = from.fullHDURL,
+            imageURL = from.imageURL,
+            downloads = from.downloads,
+            likes = from.likes,
+            comments = from.comments,
+            user = from.user
+        )
     }
 
     override fun mapTo(to: PhotoDomainData): PhotoDto {

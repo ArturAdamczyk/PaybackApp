@@ -5,6 +5,15 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+def apiKeyName = "API_KEY"
+def apiKeyValue(apiKeyName){
+    def properties = new Properties()
+    properties
+            .load(project.rootProject.file('local.properties')
+            .newDataInputStream())
+    return properties.getProperty(apiKeyName)
+}
+
 android {
     namespace 'com.art.paybackapp'
     compileSdk 33
@@ -23,7 +32,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "API_KEY", apiKeyValue(apiKeyName))
+        }
         release {
+            def apiKeyValue = System.getenv("API_KEY")
+            if(apiKeyValue == null){
+                logger.error("Set proper environment variable for API key")
+            }
+            buildConfigField("String", "API_KEY", apiKeyValue ?: "")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -99,6 +116,7 @@ dependencies {
 
     implementation 'io.reactivex.rxjava3:rxjava:3.0.6'
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.1")
 
     implementation 'com.github.bumptech.glide:glide:4.15.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'

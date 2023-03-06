@@ -1,6 +1,7 @@
 package com.art.paybackapp.domain.model
 
 data class PhotoDomainData(
+
     val id: Int,
 
     val tags: String,

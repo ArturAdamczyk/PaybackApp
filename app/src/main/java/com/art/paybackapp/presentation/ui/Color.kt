@@ -1,4 +1,4 @@
-package com.art.paybackapp.ui.theme
+package com.art.paybackapp.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

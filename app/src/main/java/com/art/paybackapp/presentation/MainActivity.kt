@@ -1,4 +1,4 @@
-package com.art.paybackapp
+package com.art.paybackapp.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.art.paybackapp.ui.theme.PaybackAppTheme
+import com.art.paybackapp.presentation.theme.PaybackAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
