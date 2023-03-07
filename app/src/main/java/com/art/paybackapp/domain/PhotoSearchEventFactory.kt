@@ -4,7 +4,7 @@ import com.art.paybackapp.domain.model.PhotoSearchDomainData
 import com.art.paybackapp.domain.model.PhotoSearchEvent
 import com.art.paybackapp.domain.model.PhotoSearchState
 
-object PhotoSearchEventFactory{
+object PhotoSearchEventFactory {
 
     fun empty(): PhotoSearchEvent{
         return PhotoSearchEvent(

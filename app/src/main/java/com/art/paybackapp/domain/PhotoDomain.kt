@@ -49,7 +49,6 @@ class PhotoDomain(
                     )
                 }
             ).addTo(compositeDisposable)
-
     }
 
 }

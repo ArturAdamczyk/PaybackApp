@@ -43,6 +43,12 @@ object PhotoModule {
     }
 
     @Provides
+    fun providePhotoSearchEventFactory()
+    : PhotoSearchEventFactory {
+        return PhotoSearchEventFactory
+    }
+
+    @Provides
     fun providePhotoDomainEvents(
         photoSearchEventFactory: PhotoSearchEventFactory
     ): PhotoDomainEvents {
