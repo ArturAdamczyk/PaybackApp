@@ -54,14 +54,8 @@ class PhotoDomainTest {
 
         val searchPhrase = "zebra"
         val photoSearchState = PhotoSearchState.Ready
-        val photoSearchDto = PhotoSearchDto(
-            total = 1,
-            totalHits = 1,
-            listOf()
-        )
-        val photoSearchDomainData = PhotoSearchDomainData(
-            listOf()
-        )
+        val photoSearchDto = PhotoDomainTestDataSet.photoSearchDto_zebra
+        val photoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebra
         val photoSearchEvent = PhotoSearchEvent(photoSearchState, photoSearchDomainData)
 
 
@@ -100,10 +94,10 @@ class PhotoDomainTest {
         val photoSearchDto = PhotoSearchDto(
             total = 0,
             totalHits = 0,
-            listOf()
+            hits = listOf()
         )
         val photoSearchDomainData = PhotoSearchDomainData(
-            listOf()
+            photos = listOf()
         )
         val photoSearchEvent = PhotoSearchEvent(photoSearchState, photoSearchDomainData)
 

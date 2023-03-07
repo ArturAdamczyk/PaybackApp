@@ -5,6 +5,7 @@ import com.art.paybackapp.common.Bindable
 import com.art.paybackapp.common.asyncToMain
 import com.art.paybackapp.data.network.mapper.PhotoSearchDtoMapper
 import com.art.paybackapp.data.network.service.PhotoApi
+import com.art.paybackapp.domain.model.PhotoSearchDomainData
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -33,22 +34,30 @@ class PhotoDomain(
             .map { photoSearchDtoMapper.mapFrom(it) }
             .subscribeBy(
                 onSuccess = {
-                    if(it.photos.isEmpty()){
-                        photoDomainEvents.search.onNext(
-                            photoSearchEventFactory.empty()
-                        )
-                    } else {
-                        photoDomainEvents.search.onNext(
-                            photoSearchEventFactory.ready(it)
-                        )
-                    }
+                    onSuccessSearch(it)
                 },
                 onError = {
-                    photoDomainEvents.search.onNext(
-                        photoSearchEventFactory.error()
-                    )
+                    onErrorSearch()
                 }
             ).addTo(compositeDisposable)
+    }
+
+    private fun onSuccessSearch(photoSearchDomainData: PhotoSearchDomainData) {
+        if(photoSearchDomainData.photos.isEmpty()){
+            photoDomainEvents.search.onNext(
+                photoSearchEventFactory.empty()
+            )
+        } else {
+            photoDomainEvents.search.onNext(
+                photoSearchEventFactory.ready(photoSearchDomainData)
+            )
+        }
+    }
+
+    private fun onErrorSearch() {
+        photoDomainEvents.search.onNext(
+            photoSearchEventFactory.error()
+        )
     }
 
 }

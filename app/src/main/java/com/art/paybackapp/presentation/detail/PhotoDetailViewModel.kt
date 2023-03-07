@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.art.paybackapp.common.Bindable
 import com.art.paybackapp.domain.PhotoDomainEvents
+import com.art.paybackapp.domain.model.PhotoDomainData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -27,11 +28,16 @@ class PhotoDetailViewModel @Inject constructor(
     }
 
     fun loadPhoto(photoId: Int) {
-        val photoDomainData =
-            photoDomainEvents.lastSearch()?.photoSearchDomainData?.photos?.find { it.id == photoId }
+        val photoDomainData = findPhoto(photoId)
         _uiState.value = PhotoDetailScreenState.ShowPhoto(
             photoDetailDisplayableFactory.create(photoDomainData!!)
         )
+    }
+
+    private fun findPhoto(photoId: Int): PhotoDomainData? {
+        return photoDomainEvents
+            .lastSearch()?.photoSearchDomainData?.photos
+            ?.find { it.id == photoId }
     }
 
 }
