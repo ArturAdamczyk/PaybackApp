@@ -1,7 +1,6 @@
 package com.art.paybackapp.presentation
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -12,14 +11,16 @@ import com.art.paybackapp.presentation.search.PhotoSearchScreen
 import com.art.paybackapp.presentation.search.PhotoSearchViewModel
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    photoSearchViewModel: PhotoSearchViewModel,
+    photoDetailViewModel: PhotoDetailViewModel
+) {
 
     val navController = rememberNavController()
-    NavHost(navController, startDestination = "photos") {
+    NavHost(navController, startDestination = "photoSearch") {
 
         composable("photoSearch") {
-            val viewModel: PhotoSearchViewModel = hiltViewModel()
-            PhotoSearchScreen(viewModel) {
+            PhotoSearchScreen(photoSearchViewModel) {
                 navController.navigate("photo/$it")
             }
         }
@@ -28,9 +29,8 @@ fun MainScreen() {
             route = "photo/{photoId}",
             arguments = listOf(navArgument("photoId") { defaultValue = 1 })
         ) { navBackStackEntry ->
-            val viewModel: PhotoDetailViewModel = hiltViewModel(navBackStackEntry)
             val photoIdArg = navBackStackEntry.arguments?.getInt("photoId")!!
-            PhotoDetailScreen(viewModel, photoIdArg)
+            PhotoDetailScreen(photoDetailViewModel, photoIdArg)
         }
 
     }

@@ -2,8 +2,7 @@ package com.art.paybackapp.presentation.detail
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import com.art.paybackapp.common.Bindable
+import com.art.paybackapp.base.BaseViewModel
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.model.PhotoDomainData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +12,7 @@ import javax.inject.Inject
 class PhotoDetailViewModel @Inject constructor(
     private val photoDomainEvents: PhotoDomainEvents,
     private val photoDetailDisplayableFactory: PhotoDetailDisplayableFactory,
-) : ViewModel(), Bindable {
+) : BaseViewModel() {
 
     private val _uiState = mutableStateOf<PhotoDetailScreenState>(PhotoDetailScreenState.Initial)
     val uiState: State<PhotoDetailScreenState>
@@ -35,9 +34,16 @@ class PhotoDetailViewModel @Inject constructor(
     }
 
     private fun findPhoto(photoId: Int): PhotoDomainData? {
-        return photoDomainEvents
-            .lastSearch()?.photoSearchDomainData?.photos
-            ?.find { it.id == photoId }
+        return PhotoDomainData(
+            id = photoId,
+            tags = "",
+            previewUrl = "",
+            largeImageUrl= "",
+            downloads = 2,
+            likes = 3,
+            comments = 4,
+            user = ""
+        )
     }
 
 }

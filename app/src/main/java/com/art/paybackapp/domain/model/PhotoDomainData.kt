@@ -8,11 +8,7 @@ data class PhotoDomainData(
 
     val previewUrl: String,
 
-    val largeImageURl: String,
-
-    val fullHDURL: String,
-
-    val imageURL: String,
+    val largeImageUrl: String,
 
     val downloads: Int,
 

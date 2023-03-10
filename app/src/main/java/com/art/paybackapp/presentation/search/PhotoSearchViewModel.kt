@@ -1,10 +1,7 @@
 package com.art.paybackapp.presentation.search
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import com.art.paybackapp.base.BaseViewModel
 import com.art.paybackapp.common.AppSchedulers
-import com.art.paybackapp.common.Bindable
 import com.art.paybackapp.common.asyncToMain
 import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
@@ -14,6 +11,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,11 +21,10 @@ class PhotoSearchViewModel @Inject constructor(
     private val photoDomainEvents: PhotoDomainEvents,
     private val photoSearchDisplayableFactory: PhotoSearchDisplayableFactory,
     private val schedulers: AppSchedulers
-) : ViewModel(), Bindable {
+) : BaseViewModel() {
 
-    private val _uiState = mutableStateOf<PhotoSearchScreenState>(PhotoSearchScreenState.Initial)
-    val uiState: State<PhotoSearchScreenState>
-        get() = _uiState
+    private val state = MutableStateFlow<PhotoSearchScreenState>(PhotoSearchScreenState.Initial)
+    fun state(): StateFlow<PhotoSearchScreenState> = state
 
     var compositeDisposable : CompositeDisposable =  CompositeDisposable()
 
@@ -39,8 +37,8 @@ class PhotoSearchViewModel @Inject constructor(
         photoDomain.unbind()
     }
 
-    fun search(searchPhrase: String) {
-        _uiState.value = PhotoSearchScreenState.Loading
+    fun search(searchPhrase: String = "fruits") {
+        state.value = PhotoSearchScreenState.Loading
         photoDomain.search(searchPhrase)
     }
 
@@ -52,14 +50,14 @@ class PhotoSearchViewModel @Inject constructor(
                 onNext = {
                     when(it.photoSearchState){
                         PhotoSearchState.Ready -> {
-                            _uiState.value = PhotoSearchScreenState.ShowPhotos(mapSearchData(it))
+                            state.value = PhotoSearchScreenState.ShowPhotos(mapSearchData(it))
                         }
-                        PhotoSearchState.Empty -> _uiState.value = PhotoSearchScreenState.Empty
-                        PhotoSearchState.Error -> _uiState.value = PhotoSearchScreenState.Error
+                        PhotoSearchState.Empty -> state.value = PhotoSearchScreenState.Empty
+                        PhotoSearchState.Error -> state.value = PhotoSearchScreenState.Error
                     }
                 },
                 onError = {
-                    _uiState.value = PhotoSearchScreenState.Error
+                    state.value = PhotoSearchScreenState.Error
                 }
             ).addTo(compositeDisposable)
     }

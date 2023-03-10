@@ -2,6 +2,7 @@ package com.art.paybackapp.domain
 
 import com.art.paybackapp.common.AppSchedulers
 import com.art.paybackapp.common.Bindable
+import com.art.paybackapp.common.async
 import com.art.paybackapp.common.asyncToMain
 import com.art.paybackapp.data.network.mapper.PhotoSearchDtoMapper
 import com.art.paybackapp.data.network.service.PhotoApi
@@ -30,7 +31,7 @@ class PhotoDomain(
     fun search(phrase: String) {
         photoApi
             .search(phrase)
-            .asyncToMain(appSchedulers)
+            .async(appSchedulers)
             .map { photoSearchDtoMapper.mapFrom(it) }
             .subscribeBy(
                 onSuccess = {

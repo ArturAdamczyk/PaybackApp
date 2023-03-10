@@ -18,6 +18,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -48,14 +49,9 @@ object PhotoModule {
         return PhotoSearchEventFactory
     }
 
+    @Singleton
     @Provides
-    fun providePhotoDomainEvents(
-        photoSearchEventFactory: PhotoSearchEventFactory
-    ): PhotoDomainEvents {
-        return PhotoDomainEvents(
-            photoSearchEventFactory = photoSearchEventFactory
-        )
-    }
+    fun providePhotoDomainEvents(): PhotoDomainEvents = PhotoDomainEvents()
 
     @Provides
     fun providePhotoApi(
@@ -86,7 +82,8 @@ object PhotoModule {
         okHttpClient: OkHttpClient
     ): RetrofitPhotoService {
         return Retrofit.Builder()
-            .baseUrl("https://pixabay.com/api")
+            .baseUrl("https://pixabay.com/")
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

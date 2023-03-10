@@ -9,12 +9,14 @@ class ApiKeyInterceptor @Inject constructor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        return chain.proceed(
-            chain.request()
-                .newBuilder()
-                .addHeader("key", apiKey)
-                .build()
-        )
+        return apiKeyAsQuery(chain)
     }
+
+    private fun apiKeyAsQuery(chain: Interceptor.Chain) = chain.proceed(
+        chain.request()
+            .newBuilder()
+            .url(chain.request().url.newBuilder().addQueryParameter("key", apiKey).build())
+            .build()
+    )
 
 }

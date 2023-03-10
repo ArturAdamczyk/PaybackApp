@@ -7,7 +7,7 @@ data class PhotoDto(
     @SerializedName("id")
     val id: Int,
 
-    @SerializedName("pageUrl")
+    @SerializedName("pageURL")
     val pageUrl: String,
 
     @SerializedName("type")
@@ -16,7 +16,7 @@ data class PhotoDto(
     @SerializedName("tags")
     val tags: String,
 
-    @SerializedName("previewUrl")
+    @SerializedName("previewURL")
     val previewUrl: String,
 
     @SerializedName("previewWidth")
@@ -34,7 +34,7 @@ data class PhotoDto(
     @SerializedName("webformatHeight")
     val webformatHeight: Int,
 
-    @SerializedName("largeImageUrl")
+    @SerializedName("largeImageURL")
     val largeImageURl: String,
 
     @SerializedName("fullHDURL")
