@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Payback App</string>
+    <string name="comments">Comments</string>
+    <string name="likes">Likes</string>
+    <string name="tags">Tags</string>
+    <string name="downloads">Downloads</string>
+    <string name="username">Username</string>
+    <string name="searchBarHint">Search photos</string>
+    <string name="errorHint">Something went wrong :(</string>
+    <string name="emptyHint">No photos found for given criteria. Try again</string>
+    <string name="searchBarError">Query must not be empty</string>
 </resources>

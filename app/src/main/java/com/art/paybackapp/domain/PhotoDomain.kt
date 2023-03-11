@@ -3,13 +3,13 @@ package com.art.paybackapp.domain
 import com.art.paybackapp.common.AppSchedulers
 import com.art.paybackapp.common.Bindable
 import com.art.paybackapp.common.async
-import com.art.paybackapp.common.asyncToMain
 import com.art.paybackapp.data.network.mapper.PhotoSearchDtoMapper
 import com.art.paybackapp.data.network.service.PhotoApi
 import com.art.paybackapp.domain.model.PhotoSearchDomainData
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
+
 
 class PhotoDomain(
     private val photoApi: PhotoApi,

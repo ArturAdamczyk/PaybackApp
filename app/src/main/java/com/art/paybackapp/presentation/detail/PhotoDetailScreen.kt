@@ -9,7 +9,7 @@ fun PhotoDetailScreen(
     photoId: Int
 ) {
 
-    when(val stateValue = viewModel.uiState.value){
+    when (val stateValue = viewModel.uiState.value) {
         is PhotoDetailScreenState.Initial -> {
             viewModel.loadPhoto(photoId)
         }
