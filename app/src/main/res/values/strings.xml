@@ -7,6 +7,9 @@
     <string name="username">Username</string>
     <string name="searchBarHint">Search photos</string>
     <string name="errorHint">Something went wrong :(</string>
-    <string name="emptyHint">No photos found for given criteria. Try again</string>
+    <string name="emptyHint">No photos found for given criteria</string>
     <string name="searchBarError">Query must not be empty</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="dialogTitle">Would you like to see the details?</string>
 </resources>

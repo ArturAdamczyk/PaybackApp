@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.search
+package com.art.paybackapp.presentation.screens.search
 
 import android.content.res.Resources
 import com.art.paybackapp.R

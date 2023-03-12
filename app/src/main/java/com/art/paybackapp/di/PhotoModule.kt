@@ -2,16 +2,20 @@ package com.art.paybackapp.di
 
 import com.art.paybackapp.BuildConfig
 import com.art.paybackapp.common.AppSchedulers
+import com.art.paybackapp.data.db.SimpleInMemoryDatabase
 import com.art.paybackapp.data.network.mapper.PhotoDtoMapper
 import com.art.paybackapp.data.network.mapper.PhotoSearchDtoMapper
 import com.art.paybackapp.data.network.provider.ApiKeyInterceptor
+import com.art.paybackapp.data.network.provider.LocaleInterceptor
 import com.art.paybackapp.data.network.provider.PhotoServiceProvider
 import com.art.paybackapp.data.network.provider.RetrofitPhotoService
 import com.art.paybackapp.data.network.service.PhotoApi
 import com.art.paybackapp.data.network.service.PhotoService
+import com.art.paybackapp.data.repository.PhotoRepository
 import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.PhotoSearchEventFactory
+import com.art.paybackapp.utils.AppLocale
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,14 +36,16 @@ object PhotoModule {
         photoSearchDtoMapper: PhotoSearchDtoMapper,
         appSchedulers: AppSchedulers,
         photoDomainEvents: PhotoDomainEvents,
-        photoSearchEventFactory: PhotoSearchEventFactory
+        photoSearchEventFactory: PhotoSearchEventFactory,
+        photoRepository: PhotoRepository
     ): PhotoDomain {
         return PhotoDomain(
             photoApi = photoApi,
             photoSearchDtoMapper = photoSearchDtoMapper,
             appSchedulers = appSchedulers,
             photoDomainEvents = photoDomainEvents,
-            photoSearchEventFactory = photoSearchEventFactory
+            photoSearchEventFactory = photoSearchEventFactory,
+            photoRepository = photoRepository
         )
     }
 
@@ -99,13 +105,34 @@ object PhotoModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(apiKeyInterceptor: ApiKeyInterceptor): OkHttpClient {
+    fun provideOkHttpClient(
+        apiKeyInterceptor: ApiKeyInterceptor,
+        localeInterceptor: LocaleInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(apiKeyInterceptor)
+            .addInterceptor(localeInterceptor)
             .build()
     }
 
     @Provides
     fun provideApiKeyInterceptor(): ApiKeyInterceptor = ApiKeyInterceptor(BuildConfig.API_KEY)
+
+    @Provides
+    fun provideLocaleInterceptor(
+        appLocale: AppLocale
+    ): LocaleInterceptor = LocaleInterceptor(appLocale)
+
+    @Singleton
+    @Provides
+    fun provideSimpleInMemoryDatabase(): SimpleInMemoryDatabase = SimpleInMemoryDatabase()
+
+    @Provides
+    fun providePhotoRepository(
+        simpleInMemoryDatabase: SimpleInMemoryDatabase
+    ): PhotoRepository =
+        PhotoRepository(
+            simpleInMemoryDatabase = simpleInMemoryDatabase
+        )
 
 }

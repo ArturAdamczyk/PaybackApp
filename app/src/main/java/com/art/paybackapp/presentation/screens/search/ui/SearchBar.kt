@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.search.ui
+package com.art.paybackapp.presentation.screens.search.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize

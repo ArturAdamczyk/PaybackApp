@@ -12,8 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.art.paybackapp.presentation.detail.PhotoDetailViewModel
-import com.art.paybackapp.presentation.search.PhotoSearchViewModel
+import com.art.paybackapp.presentation.screens.detail.PhotoDetailViewModel
+import com.art.paybackapp.presentation.screens.search.PhotoSearchViewModel
 import com.art.paybackapp.presentation.ui.PaybackAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 

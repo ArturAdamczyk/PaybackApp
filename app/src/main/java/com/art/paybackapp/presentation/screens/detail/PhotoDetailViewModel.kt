@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.detail
+package com.art.paybackapp.presentation.screens.detail
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -34,16 +34,13 @@ class PhotoDetailViewModel @Inject constructor(
     }
 
     private fun findPhoto(photoId: Int): PhotoDomainData? {
-        return PhotoDomainData(
-            id = photoId,
-            tags = "",
-            previewUrl = "",
-            largeImageUrl= "",
-            downloads = 2,
-            likes = 3,
-            comments = 4,
-            user = ""
-        )
+        return photoDomainEvents
+            .lastSearch()
+            ?.photoSearchDomainData
+            ?.photos
+            ?.find {
+                it.id == photoId
+            }
     }
 
 }

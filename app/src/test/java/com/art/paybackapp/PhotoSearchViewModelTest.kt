@@ -6,10 +6,10 @@ import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.model.PhotoSearchDomainData
 import com.art.paybackapp.domain.model.PhotoSearchEvent
 import com.art.paybackapp.domain.model.PhotoSearchState
-import com.art.paybackapp.presentation.search.PhotoSearchDisplayable
-import com.art.paybackapp.presentation.search.PhotoSearchDisplayableFactory
-import com.art.paybackapp.presentation.search.PhotoSearchScreenState
-import com.art.paybackapp.presentation.search.PhotoSearchViewModel
+import com.art.paybackapp.presentation.screens.search.PhotoSearchDisplayable
+import com.art.paybackapp.presentation.screens.search.PhotoSearchDisplayableFactory
+import com.art.paybackapp.presentation.screens.search.PhotoSearchScreenState
+import com.art.paybackapp.presentation.screens.search.PhotoSearchViewModel
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.reactivex.rxjava3.core.Observable

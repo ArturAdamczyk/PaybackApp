@@ -11,6 +11,7 @@ interface RetrofitPhotoService {
     fun search(
         @Query("q") searchString: String,
         @Query("image_type") imageType: String = "photo",
+        @Query("editors_choice") editorsChoice: Boolean = true,
         @Query("per_page") perPage: Int = 100
     ): Single<PhotoSearchDto>
 

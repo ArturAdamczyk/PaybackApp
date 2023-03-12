@@ -5,11 +5,11 @@ import com.art.paybackapp.domain.model.PhotoDomainData
 import com.art.paybackapp.domain.model.PhotoSearchDomainData
 import com.art.paybackapp.domain.model.PhotoSearchEvent
 import com.art.paybackapp.domain.model.PhotoSearchState
-import com.art.paybackapp.presentation.detail.PhotoDetailDisplayable
-import com.art.paybackapp.presentation.detail.PhotoDetailDisplayableFactory
-import com.art.paybackapp.presentation.detail.PhotoDetailScreenState
-import com.art.paybackapp.presentation.detail.PhotoDetailViewModel
-import com.art.paybackapp.presentation.search.PhotoDisplayable
+import com.art.paybackapp.presentation.screens.detail.PhotoDetailDisplayable
+import com.art.paybackapp.presentation.screens.detail.PhotoDetailDisplayableFactory
+import com.art.paybackapp.presentation.screens.detail.PhotoDetailScreenState
+import com.art.paybackapp.presentation.screens.detail.PhotoDetailViewModel
+import com.art.paybackapp.presentation.screens.search.PhotoDisplayable
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.Assertions
@@ -65,7 +65,9 @@ class PhotoDetailViewModelTest {
         val photoId = 1
 
         every { photoDomainEvents.lastSearch() } returns searchEvent
-        every { photoDetailDisplayableFactory.create(any()) } returns PhotoDetailDisplayable(PhotoDisplayable(1))
+        every { photoDetailDisplayableFactory.create(any()) } returns PhotoDetailDisplayable(
+            PhotoDisplayable(1)
+        )
 
         // When:
 

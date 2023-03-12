@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.search
+package com.art.paybackapp.presentation.screens.search
 
 import com.art.paybackapp.base.BaseViewModel
 import com.art.paybackapp.common.AppSchedulers

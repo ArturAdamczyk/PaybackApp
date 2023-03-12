@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.search
+package com.art.paybackapp.presentation.screens.search
 
 sealed class PhotoSearchScreenState {
     object Initial : PhotoSearchScreenState()

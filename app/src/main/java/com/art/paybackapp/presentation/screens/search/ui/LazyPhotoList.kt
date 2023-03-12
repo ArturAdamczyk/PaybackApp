@@ -1,11 +1,11 @@
-package com.art.paybackapp.presentation.search.ui
+package com.art.paybackapp.presentation.screens.search.ui
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.art.paybackapp.presentation.search.PhotoDisplayable
+import com.art.paybackapp.presentation.screens.search.PhotoDisplayable
 
 @Composable
 fun LazyPhotoList(photos: List<PhotoDisplayable>, onPicked: (Int) -> Unit = {}) {

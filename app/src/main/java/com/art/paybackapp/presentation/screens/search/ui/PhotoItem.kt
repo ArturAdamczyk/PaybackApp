@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.search.ui
+package com.art.paybackapp.presentation.screens.search.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -7,23 +7,47 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.art.paybackapp.presentation.search.PhotoDisplayable
+import com.art.paybackapp.R
+import com.art.paybackapp.presentation.screens.search.PhotoDisplayable
+import com.art.paybackapp.presentation.ui.composables.DialogPrompt
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun PhotoItem(
-    photo: PhotoDisplayable, onPicked: (Int) -> Unit = {}
+    photo: PhotoDisplayable,
+    onPicked: (Int) -> Unit = {}
 ) {
+
+    val openDialog = remember { mutableStateOf(false)  }
+
+    if(openDialog.value){
+        DialogPrompt(
+            title = stringResource(id = R.string.dialogTitle),
+            confirmText = stringResource(id = R.string.yes),
+            dismissText = stringResource(id = R.string.no),
+            onConfirm = {
+                openDialog.value = false
+                onPicked(photo.id)
+            },
+            onDismiss = {
+                openDialog.value = false
+            }
+        )
+    }
+
     Card(
         modifier = Modifier
             .padding(
@@ -34,9 +58,9 @@ fun PhotoItem(
             .clickable(
                 enabled = true,
                 onClick = {
-                    onPicked(photo.id)
+                    openDialog.value = true
                 }
-        ),
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondary
         ),

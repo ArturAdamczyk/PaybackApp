@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.search
+package com.art.paybackapp.presentation.screens.search
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -9,15 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.art.paybackapp.R
-import com.art.paybackapp.presentation.search.ui.LazyPhotoList
-import com.art.paybackapp.presentation.search.ui.SearchBar
+import com.art.paybackapp.presentation.screens.search.ui.LazyPhotoList
+import com.art.paybackapp.presentation.screens.search.ui.SearchBar
 
 @Composable
 fun PhotoSearchScreen(
@@ -26,9 +24,10 @@ fun PhotoSearchScreen(
 ) {
 
     val viewState = viewModel.state().collectAsStateWithLifecycle().value
-    var searchTextState = rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue("")) }
+    var searchTextState =
+        rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue("")) }
 
-    when(viewState){
+    when (viewState) {
         is PhotoSearchScreenState.Initial -> {
             viewModel.search()
         }
@@ -44,7 +43,9 @@ fun PhotoSearchScreen(
             ShowPhotos(
                 data = viewState.photoSearchDisplayable,
                 searchTextState = searchTextState,
-                onPickedPhoto = { onNavigate(it) },
+                onPickedPhoto = {
+                    onNavigate(it)
+                },
                 onSearch = {
                     viewModel.search(it.text)
                 }
@@ -70,14 +71,17 @@ fun PhotoSearchScreen(
 
 }
 
-@Composable fun Loading(
+@Composable
+fun Loading(
     searchTextState: MutableState<TextFieldValue>,
     onSearch: (TextFieldValue) -> Unit = {},
-){
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(4.dp),
+            .padding(
+                top = 20.dp
+            )
     ) {
         Column {
             SearchBar(
@@ -121,7 +125,7 @@ fun ShowPhotos(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                top = 20.dp,
+                top = 20.dp
             ),
     ) {
         Column {
@@ -142,14 +146,13 @@ fun EmptyContent() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
-    ){
+    ) {
         Text(
             modifier = Modifier.padding(
                 start = 16.dp,
                 end = 16.dp
             ),
             text = stringResource(R.string.emptyHint),
-            textAlign = TextAlign.Center,
             style = TextStyle(
                 fontSize = 20.sp,
             )
@@ -165,7 +168,7 @@ fun Empty(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(4.dp),
+            .padding(top = 20.dp)
     ) {
         Column {
             SearchBar(
@@ -181,8 +184,8 @@ fun Empty(
 fun ErrorContent() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
+        contentAlignment = Alignment.TopCenter
+    ) {
         Text(
             modifier = Modifier.padding(
                 start = 16.dp,
@@ -204,7 +207,7 @@ fun Error(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(4.dp)
+            .padding(top = 20.dp)
     ) {
         Column {
             SearchBar(

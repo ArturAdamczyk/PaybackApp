@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.detail
+package com.art.paybackapp.presentation.screens.detail
 
 sealed class PhotoDetailScreenState {
     object Initial : PhotoDetailScreenState()
