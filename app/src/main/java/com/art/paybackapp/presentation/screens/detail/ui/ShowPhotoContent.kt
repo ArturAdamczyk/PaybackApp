@@ -15,7 +15,7 @@ fun ShowPhotoContent(
     BoxWithConstraints(
         modifier = Modifier.padding(16.dp)
     ) {
-        if (maxWidth < 400.dp) {
+        if (maxWidth < maxHeight) {
             ShowPhotoContentPortrait(photoDetailDisplayable = photoDetailDisplayable)
         } else {
             ShowPhotoContentLandscape(photoDetailDisplayable = photoDetailDisplayable)

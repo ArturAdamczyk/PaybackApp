@@ -1,6 +1,5 @@
 package com.art.paybackapp.presentation.screens.search.ui.search
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape

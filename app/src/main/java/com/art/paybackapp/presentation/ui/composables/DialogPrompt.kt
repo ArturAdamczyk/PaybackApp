@@ -1,10 +1,10 @@
 package com.art.paybackapp.presentation.ui.composables
 
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun DialogPrompt(
@@ -16,6 +16,8 @@ fun DialogPrompt(
     onDismiss: () -> Unit = {},
 ) {
     AlertDialog(
+        modifier = Modifier
+            .width(300.dp),
         title = {
             Text(
                 text = title,

@@ -4,6 +4,7 @@ import com.art.paybackapp.common.TestSchedulers
 import com.art.paybackapp.data.network.mapper.PhotoSearchDtoMapper
 import com.art.paybackapp.data.network.model.PhotoSearchDto
 import com.art.paybackapp.data.network.service.PhotoApi
+import com.art.paybackapp.data.repository.PhotoRepository
 import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.PhotoSearchEventFactory
@@ -27,6 +28,8 @@ class PhotoDomainTest {
 
     private val photoSearchEventFactory: PhotoSearchEventFactory by lazy { mockk<PhotoSearchEventFactory>() }
 
+    private val photoRepository: PhotoRepository by lazy { mockk<PhotoRepository>() }
+
     private val schedulers: TestSchedulers = TestSchedulers()
 
     @MockK
@@ -41,7 +44,8 @@ class PhotoDomainTest {
                 photoSearchDtoMapper,
                 schedulers,
                 photoDomainEvents,
-                photoSearchEventFactory
+                photoSearchEventFactory,
+                photoRepository
             ),
             recordPrivateCalls = true
         )
@@ -64,6 +68,7 @@ class PhotoDomainTest {
         every { photoApi.search(any()) } answers { Single.just(photoSearchDto) }
         every { photoSearchDtoMapper.mapFrom(any()) } returns photoSearchDomainData
         every { photoSearchEventFactory.ready(any()) } returns photoSearchEvent
+        every { photoRepository.saveLast(any()) } just Runs
 
         // When:
 
@@ -75,6 +80,7 @@ class PhotoDomainTest {
         verify {
             photoApi.search(any())
             photoSearchDtoMapper.mapFrom(any())
+            photoRepository.saveLast(any())
             photoSearchEventFactory.ready(any())
             photoDomainEvents.search.onNext(capture(slots))
         }
@@ -107,6 +113,7 @@ class PhotoDomainTest {
         every { photoApi.search(any()) } answers { Single.just(photoSearchDto) }
         every { photoSearchDtoMapper.mapFrom(any()) } returns photoSearchDomainData
         every { photoSearchEventFactory.empty() } returns photoSearchEvent
+        every { photoRepository.saveLast(any()) } just Runs
 
         // When:
 
@@ -118,6 +125,7 @@ class PhotoDomainTest {
         verify {
             photoApi.search(any())
             photoSearchDtoMapper.mapFrom(any())
+            photoRepository.saveLast(any())
             photoSearchEventFactory.empty()
             photoDomainEvents.search.onNext(capture(slots))
         }
@@ -141,6 +149,7 @@ class PhotoDomainTest {
         every { photoDomainEvents.search.onNext(capture(slots)) } just Runs
         every { photoApi.search(any()) } answers { Single.error(Exception()) }
         every { photoSearchEventFactory.error() } returns photoSearchEvent
+        every { photoRepository.saveLast(any()) } just Runs
 
         // When:
 

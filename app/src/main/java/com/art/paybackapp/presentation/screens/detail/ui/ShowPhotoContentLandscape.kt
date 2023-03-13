@@ -28,7 +28,9 @@ fun ShowPhotoContentLandscape(
     ) {
         Row {
             GlideImage(
-                imageModel = { photoDetailDisplayable.photo.largeImageUrl },
+                imageModel = {
+                    photoDetailDisplayable.photo.largeImageUrl
+                },
                 imageOptions = ImageOptions(
                     contentScale = ContentScale.Crop,
                     alignment = Alignment.Center

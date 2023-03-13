@@ -51,9 +51,7 @@ class PhotoDetailViewModelTest {
                         id = 1,
                         tags = "",
                         previewUrl = "",
-                        largeImageURl = "",
-                        fullHDURL = "",
-                        imageURL = "",
+                        largeImageUrl = "",
                         downloads = 3,
                         likes = 2,
                         comments = 0,
@@ -66,7 +64,16 @@ class PhotoDetailViewModelTest {
 
         every { photoDomainEvents.lastSearch() } returns searchEvent
         every { photoDetailDisplayableFactory.create(any()) } returns PhotoDetailDisplayable(
-            PhotoDisplayable(1)
+            PhotoDisplayable(
+                id = 1,
+                tags = "",
+                imagePreviewUrl = "",
+                largeImageUrl = "",
+                downloads = "3",
+                likes = "2",
+                comments = "0",
+                username = ""
+            )
         )
 
         // When:
@@ -79,7 +86,7 @@ class PhotoDetailViewModelTest {
             photoDomainEvents.lastSearch()
         }
 
-        Assertions.assertTrue(serviceUnderTest.uiState.value is PhotoDetailScreenState.ShowPhoto)
+        Assertions.assertTrue(serviceUnderTest.state().value is PhotoDetailScreenState.ShowPhoto)
 
     }
 

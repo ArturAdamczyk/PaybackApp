@@ -52,6 +52,7 @@ class PhotoSearchViewModelTest {
 
         val searchPhrase = "zebra"
         val uiState = PhotoSearchScreenState.Loading
+
         every { photoDomain.search(any()) } just Runs
 
         // When:
@@ -65,7 +66,32 @@ class PhotoSearchViewModelTest {
             photoDomain.search(any())
         }
 
-        Assertions.assertEquals(serviceUnderTest.uiState.value, uiState)
+        Assertions.assertEquals(serviceUnderTest.state().value, uiState)
+
+    }
+
+    @Test
+    fun `GIVEN search phrase is empty WHEN search is invoked THEN screen state should be set to Empty`() {
+
+        // Given
+
+        val searchPhrase = ""
+        val uiState = PhotoSearchScreenState.Empty
+
+        every { photoDomain.search(any()) } just Runs
+
+        // When:
+
+        serviceUnderTest.search(searchPhrase)
+        schedulers.scheduler.triggerActions()
+
+        // Then:
+
+        verify (exactly = 0){
+            photoDomain.search(any())
+        }
+
+        Assertions.assertEquals(serviceUnderTest.state().value, uiState)
 
     }
 
@@ -97,7 +123,7 @@ class PhotoSearchViewModelTest {
             photoSearchDisplayableFactory.create(any())
         }
 
-        Assertions.assertTrue(serviceUnderTest.uiState.value is PhotoSearchScreenState.ShowPhotos)
+        Assertions.assertTrue(serviceUnderTest.state().value is PhotoSearchScreenState.ShowPhotos)
     }
 
     @Test
@@ -125,7 +151,7 @@ class PhotoSearchViewModelTest {
             photoDomainEvents.search()
         }
 
-        Assertions.assertTrue(serviceUnderTest.uiState.value is PhotoSearchScreenState.Empty)
+        Assertions.assertTrue(serviceUnderTest.state().value is PhotoSearchScreenState.Empty)
     }
 
     @Test
@@ -153,7 +179,7 @@ class PhotoSearchViewModelTest {
             photoDomainEvents.search()
         }
 
-        Assertions.assertTrue(serviceUnderTest.uiState.value is PhotoSearchScreenState.Error)
+        Assertions.assertTrue(serviceUnderTest.state().value is PhotoSearchScreenState.Error)
     }
 
 }

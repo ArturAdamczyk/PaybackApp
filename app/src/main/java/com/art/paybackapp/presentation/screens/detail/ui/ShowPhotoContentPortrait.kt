@@ -26,7 +26,9 @@ fun ShowPhotoContentPortrait(
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
     ) {
         GlideImage(
-            imageModel = { photoDetailDisplayable.photo.largeImageUrl },
+            imageModel = {
+                photoDetailDisplayable.photo.largeImageUrl
+            },
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.Center
