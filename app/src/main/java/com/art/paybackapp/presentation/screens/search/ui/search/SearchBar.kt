@@ -1,5 +1,6 @@
 package com.art.paybackapp.presentation.screens.search.ui.search
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.art.paybackapp.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     state: MutableState<TextFieldValue>,
