@@ -26,7 +26,7 @@ fun ShowPhotoContentLandscape(
     Card(
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
     ) {
-        Row{
+        Row {
             GlideImage(
                 imageModel = { photoDetailDisplayable.photo.largeImageUrl },
                 imageOptions = ImageOptions(

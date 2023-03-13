@@ -18,17 +18,18 @@ class PhotoDomain(
     private val photoDomainEvents: PhotoDomainEvents,
     private val photoSearchEventFactory: PhotoSearchEventFactory,
     private val photoRepository: PhotoRepository
-): Bindable {
+) : Bindable {
 
     private var compositeDisposable = CompositeDisposable()
 
     override fun bind() {
-         // no-op
+        // no-op
     }
 
     override fun unbind() {
         compositeDisposable.clear()
     }
+
     fun search(phrase: String) {
         photoApi
             .search(phrase)
@@ -49,12 +50,12 @@ class PhotoDomain(
         broadcastSearch(photoSearchDomainData)
     }
 
-    private fun saveSearch(photoSearchDomainData: PhotoSearchDomainData){
+    private fun saveSearch(photoSearchDomainData: PhotoSearchDomainData) {
         photoRepository.saveLast(photoSearchDomainData)
     }
 
-    private fun broadcastSearch(photoSearchDomainData: PhotoSearchDomainData){
-        if(photoSearchDomainData.photos.isEmpty()){
+    private fun broadcastSearch(photoSearchDomainData: PhotoSearchDomainData) {
+        if (photoSearchDomainData.photos.isEmpty()) {
             photoDomainEvents.search.onNext(
                 photoSearchEventFactory.empty()
             )

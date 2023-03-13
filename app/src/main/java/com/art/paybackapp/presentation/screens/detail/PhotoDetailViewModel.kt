@@ -13,7 +13,7 @@ class PhotoDetailViewModel @Inject constructor(
     private val photoDomainEvents: PhotoDomainEvents,
     private val photoDetailDisplayableFactory: PhotoDetailDisplayableFactory,
 ) : BaseViewModel() {
-    companion object{
+    companion object {
         internal val name: String = PhotoDetailViewModel::class.java.name
     }
 
@@ -32,7 +32,7 @@ class PhotoDetailViewModel @Inject constructor(
 
 
     fun loadPhoto(photoId: Int) {
-        if(this.photoId != photoId){
+        if (this.photoId != photoId) {
             val photoDomainData = findPhoto(photoId)
             state.value = PhotoDetailScreenState.ShowPhoto(
                 photoDetailDisplayableFactory.create(photoDomainData!!)

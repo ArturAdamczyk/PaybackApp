@@ -14,7 +14,7 @@ fun DialogPrompt(
     dismissText: String,
     onConfirm: () -> Unit = {},
     onDismiss: () -> Unit = {},
-){
+) {
     AlertDialog(
         title = {
             Text(
@@ -23,7 +23,7 @@ fun DialogPrompt(
             )
         },
         text = {
-            if(text.isNotEmpty()){
+            if (text.isNotEmpty()) {
                 Text(text)
             }
         },

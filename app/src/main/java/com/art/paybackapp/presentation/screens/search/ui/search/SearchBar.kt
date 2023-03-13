@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.screens.search.ui
+package com.art.paybackapp.presentation.screens.search.ui.search
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
@@ -35,8 +35,8 @@ fun SearchBar(
         isError.value = state.value.text.isEmpty()
     }
 
-    fun search(){
-        if(state.value.text.isNotEmpty()){
+    fun search() {
+        if (state.value.text.isNotEmpty()) {
             onSearch(state.value)
         }
     }
@@ -45,7 +45,7 @@ fun SearchBar(
         OutlinedTextField(
             isError = isError.value,
             supportingText = {
-                if(isError.value){
+                if (isError.value) {
                     Text(
                         text = stringResource(R.string.searchBarError),
                         color = MaterialTheme.colorScheme.error
@@ -76,13 +76,13 @@ fun SearchBar(
                     search()
                 }
             ),
-            leadingIcon  = {
+            leadingIcon = {
                 IconButton(
                     onClick = {
                         validate()
                         search()
                     }
-                ){
+                ) {
                     Icon(imageVector = Icons.Filled.Search, contentDescription = "searchIcon")
                 }
             },

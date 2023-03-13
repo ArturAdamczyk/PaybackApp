@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class PhotoServiceProvider @Inject constructor(
     private val photoService: RetrofitPhotoService
-): PhotoApi {
+) : PhotoApi {
 
     override fun search(searchString: String): Single<PhotoSearchDto> {
         return photoService.search(searchString = searchString)

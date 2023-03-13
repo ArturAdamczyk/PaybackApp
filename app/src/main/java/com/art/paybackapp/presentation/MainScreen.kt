@@ -1,13 +1,10 @@
 package com.art.paybackapp.presentation
 
-import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.navArgument
-import com.art.paybackapp.base.BaseViewModel
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailScreen
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailViewModel
 import com.art.paybackapp.presentation.screens.search.PhotoSearchScreen

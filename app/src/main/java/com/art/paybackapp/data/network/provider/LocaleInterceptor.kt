@@ -16,7 +16,10 @@ class LocaleInterceptor @Inject constructor(
     private fun languageAsQuery(chain: Interceptor.Chain) = chain.proceed(
         chain.request()
             .newBuilder()
-            .url(chain.request().url.newBuilder().addQueryParameter("lang", appLocale.displayLanguage).build())
+            .url(
+                chain.request().url.newBuilder()
+                    .addQueryParameter("lang", appLocale.displayLanguage).build()
+            )
             .build()
     )
 

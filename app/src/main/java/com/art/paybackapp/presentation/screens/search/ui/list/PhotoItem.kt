@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.screens.search.ui
+package com.art.paybackapp.presentation.screens.search.ui.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -31,9 +31,9 @@ fun PhotoItem(
     onPicked: (Int) -> Unit = {}
 ) {
 
-    val openDialog = remember { mutableStateOf(false)  }
+    val openDialog = remember { mutableStateOf(false) }
 
-    if(openDialog.value){
+    if (openDialog.value) {
         DialogPrompt(
             title = stringResource(id = R.string.dialogTitle),
             confirmText = stringResource(id = R.string.yes),

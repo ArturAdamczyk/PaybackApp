@@ -7,10 +7,10 @@ import javax.inject.Inject
 
 class PhotoService @Inject constructor(
     private val photoServiceProvider: PhotoServiceProvider,
-): PhotoApi {
+) : PhotoApi {
 
     override fun search(searchString: String): Single<PhotoSearchDto> {
-       return photoServiceProvider.search(searchString = searchString)
+        return photoServiceProvider.search(searchString = searchString)
     }
 
 }

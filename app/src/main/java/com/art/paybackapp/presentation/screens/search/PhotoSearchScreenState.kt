@@ -5,5 +5,5 @@ sealed class PhotoSearchScreenState {
     object Empty : PhotoSearchScreenState()
     object Loading : PhotoSearchScreenState()
     object Error : PhotoSearchScreenState()
-    class  ShowPhotos(val photoSearchDisplayable: PhotoSearchDisplayable) : PhotoSearchScreenState()
+    class ShowPhotos(val photoSearchDisplayable: PhotoSearchDisplayable) : PhotoSearchScreenState()
 }

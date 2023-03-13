@@ -1,8 +1,8 @@
 package com.art.paybackapp.utils
 
-import java.util.*
+import java.util.Locale
 
-class AppLocale{
+class AppLocale {
 
     val displayLanguage: String = Locale.getDefault().language
 

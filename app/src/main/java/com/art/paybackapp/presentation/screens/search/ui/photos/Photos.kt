@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.art.paybackapp.presentation.screens.search.PhotoSearchDisplayable
-import com.art.paybackapp.presentation.screens.search.ui.SearchBar
+import com.art.paybackapp.presentation.screens.search.ui.search.SearchBar
 
 @Composable
 fun ShowPhotos(

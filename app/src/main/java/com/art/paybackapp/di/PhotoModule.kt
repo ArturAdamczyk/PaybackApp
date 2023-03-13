@@ -52,7 +52,7 @@ object PhotoModule {
 
     @Provides
     fun providePhotoSearchEventFactory()
-    : PhotoSearchEventFactory {
+            : PhotoSearchEventFactory {
         return PhotoSearchEventFactory
     }
 

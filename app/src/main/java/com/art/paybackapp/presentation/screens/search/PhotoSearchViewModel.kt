@@ -25,7 +25,7 @@ class PhotoSearchViewModel @Inject constructor(
     private val photoSearchDisplayableFactory: PhotoSearchDisplayableFactory,
     private val schedulers: AppSchedulers
 ) : BaseViewModel() {
-    companion object{
+    companion object {
         internal val name: String = PhotoSearchViewModel::class.java.name
     }
 

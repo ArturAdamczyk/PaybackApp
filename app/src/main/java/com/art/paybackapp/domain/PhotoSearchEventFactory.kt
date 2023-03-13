@@ -6,21 +6,21 @@ import com.art.paybackapp.domain.model.PhotoSearchState
 
 object PhotoSearchEventFactory {
 
-    fun empty(): PhotoSearchEvent{
+    fun empty(): PhotoSearchEvent {
         return PhotoSearchEvent(
             photoSearchState = PhotoSearchState.Empty,
             photoSearchDomainData = PhotoSearchDomainData()
         )
     }
 
-    fun error(): PhotoSearchEvent{
+    fun error(): PhotoSearchEvent {
         return PhotoSearchEvent(
             photoSearchState = PhotoSearchState.Error,
             photoSearchDomainData = PhotoSearchDomainData()
         )
     }
 
-    fun ready(photoSearchDomainData: PhotoSearchDomainData): PhotoSearchEvent{
+    fun ready(photoSearchDomainData: PhotoSearchDomainData): PhotoSearchEvent {
         return PhotoSearchEvent(
             photoSearchState = PhotoSearchState.Ready,
             photoSearchDomainData = photoSearchDomainData

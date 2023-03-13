@@ -5,13 +5,13 @@ import com.art.paybackapp.domain.model.PhotoSearchDomainData
 
 class PhotoRepositoryImpl(
     private val simpleInMemoryDatabase: SimpleInMemoryDatabase
-): PhotoRepository{
+) : PhotoRepository {
 
-    override fun getLast() : PhotoSearchDomainData? {
+    override fun getLast(): PhotoSearchDomainData? {
         return simpleInMemoryDatabase.photoSearchData
     }
 
-    override fun saveLast(photoSearchDomainData: PhotoSearchDomainData){
+    override fun saveLast(photoSearchDomainData: PhotoSearchDomainData) {
         simpleInMemoryDatabase.photoSearchData = photoSearchDomainData
     }
 

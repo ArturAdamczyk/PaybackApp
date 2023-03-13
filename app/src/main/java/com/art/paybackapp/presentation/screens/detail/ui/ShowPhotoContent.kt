@@ -17,7 +17,7 @@ fun ShowPhotoContent(
     ) {
         if (maxWidth < 400.dp) {
             ShowPhotoContentPortrait(photoDetailDisplayable = photoDetailDisplayable)
-        } else{
+        } else {
             ShowPhotoContentLandscape(photoDetailDisplayable = photoDetailDisplayable)
         }
     }

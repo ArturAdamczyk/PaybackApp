@@ -19,7 +19,7 @@ import com.art.paybackapp.presentation.ui.styles.PaybackAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity: BaseActivity() {
+class MainActivity : BaseActivity() {
 
     private val photoSearchViewModel: PhotoSearchViewModel by viewModels()
     private val photoDetailViewModel: PhotoDetailViewModel by viewModels()

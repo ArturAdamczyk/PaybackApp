@@ -34,12 +34,12 @@ fun PaybackAppTheme(
 
     val systemUiController = rememberSystemUiController()
 
-    if(darkTheme){
+    if (darkTheme) {
         systemUiController.setSystemBarsColor(color = colorScheme.background, darkIcons = false)
-        systemUiController.setNavigationBarColor( color = colorScheme.background, darkIcons = false)
-    }else{
+        systemUiController.setNavigationBarColor(color = colorScheme.background, darkIcons = false)
+    } else {
         systemUiController.setSystemBarsColor(color = colorScheme.background, darkIcons = true)
-        systemUiController.setNavigationBarColor( color = colorScheme.background, darkIcons = true)
+        systemUiController.setNavigationBarColor(color = colorScheme.background, darkIcons = true)
     }
 
     MaterialTheme(

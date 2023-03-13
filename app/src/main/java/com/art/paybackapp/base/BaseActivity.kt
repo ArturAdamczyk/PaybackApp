@@ -9,7 +9,7 @@ abstract class BaseActivity : ComponentActivity() {
 
     abstract fun initializeViewModels(): HashMap<String, BaseViewModel>
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeViewModels()
     }
