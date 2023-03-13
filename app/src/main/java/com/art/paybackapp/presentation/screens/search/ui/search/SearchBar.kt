@@ -56,7 +56,6 @@ fun SearchBar(
             value = state.value,
             onValueChange = {
                 state.value = it
-                validate()
             },
             placeholder = {
                 Text(text = stringResource(R.string.searchBarHint))
