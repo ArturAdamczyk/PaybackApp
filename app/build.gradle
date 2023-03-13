@@ -5,14 +5,9 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+apply from: "./../utils.gradle"
+
 def apiKeyName = "API_KEY"
-def apiKeyValue(apiKeyName){
-    def properties = new Properties()
-    properties
-            .load(project.rootProject.file('local.properties')
-            .newDataInputStream())
-    return properties.getProperty(apiKeyName)
-}
 
 android {
     namespace 'com.art.paybackapp'
@@ -38,7 +33,7 @@ android {
         release {
             def apiKeyValue = System.getenv("API_KEY")
             if(apiKeyValue == null){
-                logger.error("Set proper environment variable for API key")
+                logger.error("Set proper API key for release build")
             }
             buildConfigField("String", "API_KEY", apiKeyValue ?: "")
             minifyEnabled true
