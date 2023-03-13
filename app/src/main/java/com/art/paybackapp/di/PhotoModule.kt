@@ -16,6 +16,7 @@ import com.art.paybackapp.data.repository.PhotoRepositoryImpl
 import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.PhotoSearchEventFactory
+import com.art.paybackapp.domain.model.PhotoSearchDomainDataFactory
 import com.art.paybackapp.utils.AppLocale
 import dagger.Module
 import dagger.Provides
@@ -38,7 +39,8 @@ object PhotoModule {
         appSchedulers: AppSchedulers,
         photoDomainEvents: PhotoDomainEvents,
         photoSearchEventFactory: PhotoSearchEventFactory,
-        photoRepository: PhotoRepository
+        photoRepository: PhotoRepository,
+        photoDomainDataFactory: PhotoSearchDomainDataFactory
     ): PhotoDomain {
         return PhotoDomain(
             photoApi = photoApi,
@@ -46,8 +48,15 @@ object PhotoModule {
             appSchedulers = appSchedulers,
             photoDomainEvents = photoDomainEvents,
             photoSearchEventFactory = photoSearchEventFactory,
-            photoRepository = photoRepository
+            photoRepository = photoRepository,
+            photoDomainDataFactory = photoDomainDataFactory
         )
+    }
+
+    @Provides
+    fun providePhotoDomainDataFactory()
+            : PhotoSearchDomainDataFactory {
+        return PhotoSearchDomainDataFactory
     }
 
     @Provides

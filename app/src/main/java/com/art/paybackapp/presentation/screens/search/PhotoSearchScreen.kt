@@ -40,6 +40,9 @@ fun PhotoSearchScreen(
                 },
                 onSearch = {
                     viewModel.search(it.text)
+                },
+                onLoadMore = {
+                    viewModel.searchMore()
                 }
             )
         }

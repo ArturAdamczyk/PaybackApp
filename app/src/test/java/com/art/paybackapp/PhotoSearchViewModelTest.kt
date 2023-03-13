@@ -87,11 +87,49 @@ class PhotoSearchViewModelTest {
 
         // Then:
 
-        verify (exactly = 0){
+        verify(exactly = 0) {
             photoDomain.search(any())
         }
 
         Assertions.assertEquals(serviceUnderTest.state().value, uiState)
+
+    }
+
+    @Test
+    fun `GIVEN previous search WHEN searchMore is invoked THEN screen state should not change`() {
+
+        // Given
+
+        val searchPhrase = "zebra"
+
+        val searchEvent = PhotoSearchEvent(
+            PhotoSearchState.Ready,
+            PhotoSearchDomainData()
+        )
+        val photoSearchDisplayable = PhotoSearchDisplayable(listOf())
+
+        every { photoDomain.bind() } just Runs
+        every { photoDomainEvents.search() } returns Observable.just(searchEvent)
+        every { photoSearchDisplayableFactory.create(any()) } returns photoSearchDisplayable
+        every { photoDomain.search(any()) } just Runs
+        every { photoDomain.searchMore() } just Runs
+
+        // When:
+
+        serviceUnderTest.bind()
+        serviceUnderTest.search(searchPhrase)
+        serviceUnderTest.searchMore()
+        schedulers.scheduler.triggerActions()
+
+        // Then:
+
+        verifyOrder {
+            photoDomain.search(any())
+            photoDomain.searchMore()
+        }
+
+
+        Assertions.assertTrue(serviceUnderTest.state().value is PhotoSearchScreenState.ShowPhotos)
 
     }
 

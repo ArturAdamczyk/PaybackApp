@@ -49,6 +49,10 @@ class PhotoSearchViewModel @Inject constructor(
         }
     }
 
+    fun searchMore(){
+        photoDomain.searchMore()
+    }
+
     private fun observeSearchDomainEvents() {
         photoDomainEvents
             .search()

@@ -1,10 +1,7 @@
 package com.art.paybackapp
 
 import com.art.paybackapp.domain.PhotoDomainEvents
-import com.art.paybackapp.domain.model.PhotoDomainData
-import com.art.paybackapp.domain.model.PhotoSearchDomainData
-import com.art.paybackapp.domain.model.PhotoSearchEvent
-import com.art.paybackapp.domain.model.PhotoSearchState
+import com.art.paybackapp.domain.model.*
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailDisplayable
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailDisplayableFactory
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailScreenState
@@ -46,16 +43,17 @@ class PhotoDetailViewModelTest {
         val searchEvent = PhotoSearchEvent(
             PhotoSearchState.Ready,
             PhotoSearchDomainData(
-                photos = listOf(
-                    PhotoDomainData(
-                        id = 1,
-                        tags = "",
-                        previewUrl = "",
-                        largeImageUrl = "",
-                        downloads = 3,
-                        likes = 2,
-                        comments = 0,
-                        user = ""
+                photosDomainData = PhotosDomainData(listOf(
+                        PhotoDomainData(
+                            id = 1,
+                            tags = "",
+                            previewUrl = "",
+                            largeImageUrl = "",
+                            downloads = 3,
+                            likes = 2,
+                            comments = 0,
+                            user = ""
+                        )
                     )
                 )
             )

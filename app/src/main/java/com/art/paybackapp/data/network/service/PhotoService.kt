@@ -9,8 +9,11 @@ class PhotoService @Inject constructor(
     private val photoServiceProvider: PhotoServiceProvider,
 ) : PhotoApi {
 
-    override fun search(searchString: String): Single<PhotoSearchDto> {
-        return photoServiceProvider.search(searchString = searchString)
+    override fun search(searchString: String, pageNumber: Int): Single<PhotoSearchDto> {
+        return photoServiceProvider.search(
+            searchString = searchString,
+            pageNumber = pageNumber
+        )
     }
 
 }

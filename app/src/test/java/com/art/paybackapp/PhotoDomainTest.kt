@@ -8,9 +8,7 @@ import com.art.paybackapp.data.repository.PhotoRepository
 import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.PhotoSearchEventFactory
-import com.art.paybackapp.domain.model.PhotoSearchDomainData
-import com.art.paybackapp.domain.model.PhotoSearchEvent
-import com.art.paybackapp.domain.model.PhotoSearchState
+import com.art.paybackapp.domain.model.*
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.reactivex.rxjava3.core.Single
@@ -30,6 +28,8 @@ class PhotoDomainTest {
 
     private val photoRepository: PhotoRepository by lazy { mockk<PhotoRepository>() }
 
+    private val photoSearchDomainDataFactory: PhotoSearchDomainDataFactory by lazy { mockk<PhotoSearchDomainDataFactory>() }
+
     private val schedulers: TestSchedulers = TestSchedulers()
 
     @MockK
@@ -45,7 +45,8 @@ class PhotoDomainTest {
                 schedulers,
                 photoDomainEvents,
                 photoSearchEventFactory,
-                photoRepository
+                photoRepository,
+                photoSearchDomainDataFactory
             ),
             recordPrivateCalls = true
         )
@@ -60,13 +61,15 @@ class PhotoDomainTest {
         val photoSearchState = PhotoSearchState.Ready
         val photoSearchDto = PhotoDomainTestDataSet.photoSearchDto_zebra
         val photoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebra
+        val photosDomainData =  PhotoDomainTestDataSet.photosDomainData_zebra
         val photoSearchEvent = PhotoSearchEvent(photoSearchState, photoSearchDomainData)
 
 
         val slots = mutableListOf<PhotoSearchEvent>()
         every { photoDomainEvents.search.onNext(capture(slots)) } just Runs
         every { photoApi.search(any()) } answers { Single.just(photoSearchDto) }
-        every { photoSearchDtoMapper.mapFrom(any()) } returns photoSearchDomainData
+        every { photoSearchDtoMapper.mapFrom(any()) } returns photosDomainData
+        every { photoSearchDomainDataFactory.create(any(), any<String>()) } returns photoSearchDomainData
         every { photoSearchEventFactory.ready(any()) } returns photoSearchEvent
         every { photoRepository.saveLast(any()) } just Runs
 
@@ -91,6 +94,84 @@ class PhotoDomainTest {
     }
 
     @Test
+    fun `GIVEN previous search data WHEN searchMore is invoked THEN ready event should be broadcast`() {
+
+        // Given
+
+        val searchPhrase = "zebra"
+        val photoSearchState = PhotoSearchState.Ready
+        val photoSearchDto = PhotoDomainTestDataSet.photoSearchDto_zebra
+        val previousPhotoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebra
+        val photoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebraMore
+        val photosDomainData =  PhotoDomainTestDataSet.photosDomainData_zebra
+        val photoSearchEvent = PhotoSearchEvent(photoSearchState, photoSearchDomainData)
+
+
+        val slots = mutableListOf<PhotoSearchEvent>()
+        every { photoDomainEvents.search.onNext(capture(slots)) } just Runs
+        every { photoApi.search(any(), any()) } answers { Single.just(photoSearchDto) }
+        every { photoSearchDtoMapper.mapFrom(any()) } returns photosDomainData
+        every { photoSearchDomainDataFactory.create(any(), any<PhotoSearchDomainData>()) } returns photoSearchDomainData
+        every { photoSearchEventFactory.ready(any()) } returns photoSearchEvent
+        every { photoRepository.saveLast(any()) } just Runs
+        every { photoRepository.getLast() } returns previousPhotoSearchDomainData
+
+        // When:
+
+        serviceUnderTest.searchMore()
+        schedulers.scheduler.triggerActions()
+
+        // Then:
+
+        verify {
+            photoApi.search(any(), any())
+            photoSearchDtoMapper.mapFrom(any())
+            photoSearchDomainDataFactory.create(any(), any<PhotoSearchDomainData>())
+            photoRepository.saveLast(any())
+            photoSearchEventFactory.ready(any())
+            photoDomainEvents.search.onNext(capture(slots))
+        }
+
+        assertEquals(slots[0].photoSearchState, photoSearchState)
+        assertEquals(slots[0].photoSearchDomainData, photoSearchDomainData)
+
+    }
+
+    @Test
+    fun `GIVEN no previous search data WHEN searchMore is invoked THEN nothing should happen`() {
+
+        // Given
+
+        val searchPhrase = "zebra"
+        val photoSearchState = PhotoSearchState.Ready
+        val photoSearchDto = PhotoDomainTestDataSet.photoSearchDto_zebra
+        val previousPhotoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebra
+        val photoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebraMore
+        val photosDomainData =  PhotoDomainTestDataSet.photosDomainData_zebra
+        val photoSearchEvent = PhotoSearchEvent(photoSearchState, photoSearchDomainData)
+
+        every { photoApi.search(any()) } answers { Single.just(photoSearchDto) }
+        every { photoSearchDtoMapper.mapFrom(any()) } returns photosDomainData
+        every { photoSearchDomainDataFactory.create(any(), any<PhotoSearchDomainData>()) } returns previousPhotoSearchDomainData
+        every { photoSearchEventFactory.ready(any()) } returns photoSearchEvent
+        every { photoRepository.saveLast(any()) } just Runs
+        every { photoRepository.getLast() } returns null
+
+        // When:
+
+        serviceUnderTest.searchMore()
+        schedulers.scheduler.triggerActions()
+
+        // Then:
+
+        verify {
+            photoDomainEvents.search wasNot Called
+            photoApi.search(any()) wasNot Called
+        }
+
+    }
+
+    @Test
     fun `GIVEN search data is empty WHEN search is invoked THEN empty event should be broadcast`() {
 
         // Given
@@ -102,8 +183,11 @@ class PhotoDomainTest {
             totalHits = 0,
             hits = listOf()
         )
+        val photosDomainData = PhotosDomainData()
         val photoSearchDomainData = PhotoSearchDomainData(
-            photos = listOf()
+            photosDomainData = photosDomainData,
+            searchPhrase = searchPhrase,
+            currentPageNumber = 1
         )
         val photoSearchEvent = PhotoSearchEvent(photoSearchState, photoSearchDomainData)
 
@@ -111,7 +195,8 @@ class PhotoDomainTest {
         val slots = mutableListOf<PhotoSearchEvent>()
         every { photoDomainEvents.search.onNext(capture(slots)) } just Runs
         every { photoApi.search(any()) } answers { Single.just(photoSearchDto) }
-        every { photoSearchDtoMapper.mapFrom(any()) } returns photoSearchDomainData
+        every { photoSearchDtoMapper.mapFrom(any()) } returns photosDomainData
+        every { photoSearchDomainDataFactory.create(any(), any<String>()) } returns photoSearchDomainData
         every { photoSearchEventFactory.empty() } returns photoSearchEvent
         every { photoRepository.saveLast(any()) } just Runs
 

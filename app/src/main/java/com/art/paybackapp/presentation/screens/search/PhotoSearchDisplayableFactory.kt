@@ -12,9 +12,13 @@ class PhotoSearchDisplayableFactory @Inject constructor(
 
     fun create(photoSearchEvent: PhotoSearchEvent): PhotoSearchDisplayable {
         return PhotoSearchDisplayable(
-            photos = photoSearchEvent.photoSearchDomainData.photos.map {
-                createPhotoDisplayable(it)
-            }
+            photos = photoSearchEvent
+                .photoSearchDomainData
+                .photosDomainData
+                .photos
+                .map {
+                    createPhotoDisplayable(it)
+                }
         )
     }
 

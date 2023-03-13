@@ -45,6 +45,7 @@ class PhotoDetailViewModel @Inject constructor(
         return photoDomainEvents
             .lastSearch()
             ?.photoSearchDomainData
+            ?.photosDomainData
             ?.photos
             ?.find {
                 it.id == photoId

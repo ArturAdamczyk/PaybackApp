@@ -16,7 +16,8 @@ fun ShowPhotos(
     data: PhotoSearchDisplayable,
     searchTextState: MutableState<TextFieldValue>,
     onPickedPhoto: (Int) -> Unit = {},
-    onSearch: (TextFieldValue) -> Unit = {}
+    onSearch: (TextFieldValue) -> Unit = {},
+    onLoadMore: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -32,7 +33,8 @@ fun ShowPhotos(
             )
             ShowPhotosContent(
                 data = data,
-                onPickedPhoto = onPickedPhoto
+                onPickedPhoto = onPickedPhoto,
+                onLoadMore = onLoadMore
             )
         }
     }

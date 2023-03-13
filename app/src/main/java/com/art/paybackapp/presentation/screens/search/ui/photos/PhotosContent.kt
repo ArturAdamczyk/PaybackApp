@@ -8,9 +8,14 @@ import com.art.paybackapp.presentation.screens.search.ui.list.LazyPhotoList
 @Composable
 fun ShowPhotosContent(
     data: PhotoSearchDisplayable,
-    onPickedPhoto: (Int) -> Unit = {}
+    onPickedPhoto: (Int) -> Unit = {},
+    onLoadMore: () -> Unit = {}
 ) {
     Column {
-        LazyPhotoList(data.photos, onPickedPhoto)
+        LazyPhotoList(
+            data.photos,
+            onPickedPhoto,
+            onLoadMore
+        )
     }
 }

@@ -6,6 +6,7 @@ import com.art.paybackapp.common.async
 import com.art.paybackapp.data.network.mapper.PhotoSearchDtoMapper
 import com.art.paybackapp.data.network.service.PhotoApi
 import com.art.paybackapp.data.repository.PhotoRepository
+import com.art.paybackapp.domain.model.PhotoSearchDomainDataFactory
 import com.art.paybackapp.domain.model.PhotoSearchDomainData
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -17,7 +18,8 @@ class PhotoDomain(
     private val appSchedulers: AppSchedulers,
     private val photoDomainEvents: PhotoDomainEvents,
     private val photoSearchEventFactory: PhotoSearchEventFactory,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
+    private val photoDomainDataFactory: PhotoSearchDomainDataFactory
 ) : Bindable {
 
     private var compositeDisposable = CompositeDisposable()
@@ -35,6 +37,7 @@ class PhotoDomain(
             .search(phrase)
             .async(appSchedulers)
             .map { photoSearchDtoMapper.mapFrom(it) }
+            .map { photoDomainDataFactory.create(it, phrase) }
             .subscribeBy(
                 onSuccess = {
                     onSuccessSearch(it)
@@ -43,6 +46,29 @@ class PhotoDomain(
                     onErrorSearch()
                 }
             ).addTo(compositeDisposable)
+    }
+
+    fun searchMore() {
+        val lastSearch = photoRepository.getLast()
+        if (lastSearch != null) {
+            photoApi
+                .search(lastSearch.searchPhrase, lastSearch.currentPageNumber + 1)
+                .async(appSchedulers)
+                .map {
+                    photoSearchDtoMapper.mapFrom(it)
+                }
+                .map {
+                    photoDomainDataFactory.create(it, lastSearch)
+                }
+                .subscribeBy(
+                    onSuccess = {
+                        onSuccessSearch(it)
+                    },
+                    onError = {
+                        val dupa =""
+                    }
+                ).addTo(compositeDisposable)
+        }
     }
 
     private fun onSuccessSearch(photoSearchDomainData: PhotoSearchDomainData) {
@@ -55,7 +81,7 @@ class PhotoDomain(
     }
 
     private fun broadcastSearch(photoSearchDomainData: PhotoSearchDomainData) {
-        if (photoSearchDomainData.photos.isEmpty()) {
+        if (photoSearchDomainData.photosDomainData.photos.isEmpty()) {
             photoDomainEvents.search.onNext(
                 photoSearchEventFactory.empty()
             )
