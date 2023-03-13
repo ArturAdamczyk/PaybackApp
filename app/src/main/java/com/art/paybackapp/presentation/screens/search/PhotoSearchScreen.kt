@@ -1,25 +1,17 @@
 package com.art.paybackapp.presentation.screens.search
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.art.paybackapp.R
-import com.art.paybackapp.presentation.screens.search.ui.LazyPhotoList
-import com.art.paybackapp.presentation.screens.search.ui.SearchBar
+import com.art.paybackapp.presentation.screens.search.ui.loading.Loading
+import com.art.paybackapp.presentation.screens.search.ui.empty.Empty
+import com.art.paybackapp.presentation.screens.search.ui.error.Error
+import com.art.paybackapp.presentation.screens.search.ui.photos.ShowPhotos
 
 @Composable
 fun PhotoSearchScreen(
-    viewModel: PhotoSearchViewModel = hiltViewModel(),
+    viewModel: PhotoSearchViewModel,
     onNavigate: (Int) -> (Unit)
 ) {
 
@@ -71,150 +63,15 @@ fun PhotoSearchScreen(
 
 }
 
-@Composable
-fun Loading(
-    searchTextState: MutableState<TextFieldValue>,
-    onSearch: (TextFieldValue) -> Unit = {},
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = 20.dp
-            )
-    ) {
-        Column {
-            SearchBar(
-                state = searchTextState,
-                onSearch = onSearch
-            )
-            LoadingContent()
-        }
-    }
-}
 
-@Composable
-fun LoadingContent() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator()
-    }
-}
 
-@Composable
-fun ShowPhotosContent(
-    data: PhotoSearchDisplayable,
-    onPickedPhoto: (Int) -> Unit = {}
-) {
-    Column {
-        LazyPhotoList(data.photos, onPickedPhoto)
-    }
-}
 
-@Composable
-fun ShowPhotos(
-    data: PhotoSearchDisplayable,
-    searchTextState: MutableState<TextFieldValue>,
-    onPickedPhoto: (Int) -> Unit = {},
-    onSearch: (TextFieldValue) -> Unit = {}
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = 20.dp
-            ),
-    ) {
-        Column {
-            SearchBar(
-                state = searchTextState,
-                onSearch = onSearch
-            )
-            ShowPhotosContent(
-                data = data,
-                onPickedPhoto = onPickedPhoto
-            )
-        }
-    }
-}
 
-@Composable
-fun EmptyContent() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Text(
-            modifier = Modifier.padding(
-                start = 16.dp,
-                end = 16.dp
-            ),
-            text = stringResource(R.string.emptyHint),
-            style = TextStyle(
-                fontSize = 20.sp,
-            )
-        )
-    }
-}
 
-@Composable
-fun Empty(
-    searchTextState: MutableState<TextFieldValue>,
-    onSearch: (TextFieldValue) -> Unit = {},
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 20.dp)
-    ) {
-        Column {
-            SearchBar(
-                state = searchTextState,
-                onSearch = onSearch
-            )
-            EmptyContent()
-        }
-    }
-}
 
-@Composable
-fun ErrorContent() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Text(
-            modifier = Modifier.padding(
-                start = 16.dp,
-                end = 16.dp
-            ),
-            text = stringResource(R.string.errorHint),
-            style = TextStyle(
-                fontSize = 20.sp,
-            )
-        )
-    }
-}
 
-@Composable
-fun Error(
-    searchTextState: MutableState<TextFieldValue>,
-    onSearch: (TextFieldValue) -> Unit = {},
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 20.dp)
-    ) {
-        Column {
-            SearchBar(
-                state = searchTextState,
-                onSearch = onSearch
-            )
-            ErrorContent()
-        }
-    }
-}
+
+
+
+
+

@@ -1,10 +1,13 @@
 package com.art.paybackapp.presentation
 
+import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.navArgument
+import com.art.paybackapp.base.BaseViewModel
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailScreen
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailViewModel
 import com.art.paybackapp.presentation.screens.search.PhotoSearchScreen
@@ -27,9 +30,12 @@ fun MainScreen(
             route = Screen.Search.route,
             enterTransition = null,
         ) {
-            PhotoSearchScreen(photoSearchViewModel) {
-                navController.navigate("photo/$it")
-            }
+            PhotoSearchScreen(
+                viewModel = photoSearchViewModel,
+                onNavigate = {
+                    navController.navigate("photo/$it")
+                }
+            )
         }
 
         composable(
@@ -40,7 +46,10 @@ fun MainScreen(
             arguments = listOf(navArgument(Screen.Details.param) { defaultValue = 1 })
         ) { navBackStackEntry ->
             val photoIdArg = navBackStackEntry.arguments?.getInt(Screen.Details.param)!!
-            PhotoDetailScreen(photoDetailViewModel, photoIdArg)
+            PhotoDetailScreen(
+                viewModel = photoDetailViewModel,
+                photoId = photoIdArg
+            )
         }
 
     }

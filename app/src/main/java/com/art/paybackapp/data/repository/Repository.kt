@@ -1,9 +1,11 @@
 package com.art.paybackapp.data.repository
 
-interface Repository<T> {
+import com.art.paybackapp.domain.model.PhotoSearchDomainData
 
-    fun <T> get(): T
+interface PhotoRepository {
 
-    fun <T> save(element: T)
+    fun getLast() : PhotoSearchDomainData?
+
+    fun saveLast(photoSearchDomainData: PhotoSearchDomainData)
 
 }

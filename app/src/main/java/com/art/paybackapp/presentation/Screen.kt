@@ -1,9 +1,9 @@
 package com.art.paybackapp.presentation
 
-sealed class Screen(val route: String, val param: String = "") {
+sealed class Screen(val name: String, val route: String, val param: String = "") {
 
-    object Search : Screen("photoSearch")
+    object Search : Screen("Search","photoSearch")
 
-    object Details : Screen("photo/{photoId}", "photoId" )
+    object Details : Screen("Details","photo/{photoId}", "photoId" )
 
 }

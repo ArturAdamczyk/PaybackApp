@@ -12,6 +12,7 @@ import com.art.paybackapp.data.network.provider.RetrofitPhotoService
 import com.art.paybackapp.data.network.service.PhotoApi
 import com.art.paybackapp.data.network.service.PhotoService
 import com.art.paybackapp.data.repository.PhotoRepository
+import com.art.paybackapp.data.repository.PhotoRepositoryImpl
 import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.PhotoSearchEventFactory
@@ -131,7 +132,7 @@ object PhotoModule {
     fun providePhotoRepository(
         simpleInMemoryDatabase: SimpleInMemoryDatabase
     ): PhotoRepository =
-        PhotoRepository(
+        PhotoRepositoryImpl(
             simpleInMemoryDatabase = simpleInMemoryDatabase
         )
 

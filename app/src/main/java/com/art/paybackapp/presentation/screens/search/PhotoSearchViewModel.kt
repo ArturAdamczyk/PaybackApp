@@ -25,6 +25,9 @@ class PhotoSearchViewModel @Inject constructor(
     private val photoSearchDisplayableFactory: PhotoSearchDisplayableFactory,
     private val schedulers: AppSchedulers
 ) : BaseViewModel() {
+    companion object{
+        internal val name: String = PhotoSearchViewModel::class.java.name
+    }
 
     private val state = MutableStateFlow<PhotoSearchScreenState>(PhotoSearchScreenState.Initial)
     fun state(): StateFlow<PhotoSearchScreenState> = state
@@ -34,7 +37,7 @@ class PhotoSearchViewModel @Inject constructor(
 
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    private val queryDebounceTimeout = 600L
+    private val queryDebounceTimeout = 500L
 
     override fun bind() {
         photoDomain.bind()
