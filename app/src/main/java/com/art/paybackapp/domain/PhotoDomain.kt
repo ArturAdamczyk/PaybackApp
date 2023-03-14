@@ -54,33 +54,27 @@ class PhotoDomain(
             photoApi
                 .search(lastSearch.searchPhrase, lastSearch.currentPageNumber + 1)
                 .async(appSchedulers)
-                .map {
-                    photoSearchDtoMapper.mapFrom(it)
-                }
-                .map {
-                    photoDomainDataFactory.create(it, lastSearch)
-                }
+                .map { photoSearchDtoMapper.mapFrom(it) }
+                .map { photoDomainDataFactory.create(it, lastSearch) }
                 .subscribeBy(
                     onSuccess = {
                         onSuccessSearch(it)
                     },
-                    onError = {
-                        val dupa =""
-                    }
+                    onError = {}
                 ).addTo(compositeDisposable)
         }
     }
 
     private fun onSuccessSearch(photoSearchDomainData: PhotoSearchDomainData) {
         saveSearch(photoSearchDomainData)
-        broadcastSearch(photoSearchDomainData)
+        broadcastSearchEvent(photoSearchDomainData)
     }
 
     private fun saveSearch(photoSearchDomainData: PhotoSearchDomainData) {
         photoRepository.saveLast(photoSearchDomainData)
     }
 
-    private fun broadcastSearch(photoSearchDomainData: PhotoSearchDomainData) {
+    private fun broadcastSearchEvent(photoSearchDomainData: PhotoSearchDomainData) {
         if (photoSearchDomainData.photosDomainData.photos.isEmpty()) {
             photoDomainEvents.search.onNext(
                 photoSearchEventFactory.empty()
