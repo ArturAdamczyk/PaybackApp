@@ -34,8 +34,6 @@ object PhotoModule {
 
     @Provides
     fun providePhotoDomain(
-        photoApi: PhotoApi,
-        photoSearchDtoMapper: PhotoSearchDtoMapper,
         appSchedulers: AppSchedulers,
         photoDomainEvents: PhotoDomainEvents,
         photoSearchEventFactory: PhotoSearchEventFactory,
@@ -43,8 +41,6 @@ object PhotoModule {
         photoDomainDataFactory: PhotoSearchDomainDataFactory
     ): PhotoDomain {
         return PhotoDomain(
-            photoApi = photoApi,
-            photoSearchDtoMapper = photoSearchDtoMapper,
             appSchedulers = appSchedulers,
             photoDomainEvents = photoDomainEvents,
             photoSearchEventFactory = photoSearchEventFactory,
@@ -139,10 +135,14 @@ object PhotoModule {
 
     @Provides
     fun providePhotoRepository(
-        simpleInMemoryDatabase: SimpleInMemoryDatabase
+        simpleInMemoryDatabase: SimpleInMemoryDatabase,
+        photoSearchDtoMapper: PhotoSearchDtoMapper,
+        photoApi: PhotoApi
     ): PhotoRepository =
         PhotoRepositoryImpl(
-            simpleInMemoryDatabase = simpleInMemoryDatabase
+            simpleInMemoryDatabase = simpleInMemoryDatabase,
+            photoSearchDtoMapper = photoSearchDtoMapper,
+            photoService = photoApi
         )
 
 }

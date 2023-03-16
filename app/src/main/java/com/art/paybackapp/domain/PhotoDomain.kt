@@ -3,8 +3,6 @@ package com.art.paybackapp.domain
 import com.art.paybackapp.common.AppSchedulers
 import com.art.paybackapp.common.Bindable
 import com.art.paybackapp.common.async
-import com.art.paybackapp.data.network.mapper.PhotoSearchDtoMapper
-import com.art.paybackapp.data.network.service.PhotoApi
 import com.art.paybackapp.data.repository.PhotoRepository
 import com.art.paybackapp.domain.model.PhotoSearchDomainDataFactory
 import com.art.paybackapp.domain.model.PhotoSearchDomainData
@@ -13,12 +11,10 @@ import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class PhotoDomain(
-    private val photoApi: PhotoApi,
-    private val photoSearchDtoMapper: PhotoSearchDtoMapper,
+    private val photoRepository: PhotoRepository,
     private val appSchedulers: AppSchedulers,
     private val photoDomainEvents: PhotoDomainEvents,
     private val photoSearchEventFactory: PhotoSearchEventFactory,
-    private val photoRepository: PhotoRepository,
     private val photoDomainDataFactory: PhotoSearchDomainDataFactory
 ) : Bindable {
 
@@ -33,10 +29,9 @@ class PhotoDomain(
     }
 
     fun search(phrase: String) {
-        photoApi
+        photoRepository
             .search(phrase)
             .async(appSchedulers)
-            .map { photoSearchDtoMapper.mapFrom(it) }
             .map { photoDomainDataFactory.create(it, phrase) }
             .subscribeBy(
                 onSuccess = {
@@ -49,12 +44,11 @@ class PhotoDomain(
     }
 
     fun searchMore() {
-        val lastSearch = photoRepository.getLast()
+        val lastSearch = photoRepository.lastSearch()
         if (lastSearch != null) {
-            photoApi
+            photoRepository
                 .search(lastSearch.searchPhrase, lastSearch.currentPageNumber + 1)
                 .async(appSchedulers)
-                .map { photoSearchDtoMapper.mapFrom(it) }
                 .map { photoDomainDataFactory.create(it, lastSearch) }
                 .subscribeBy(
                     onSuccess = {
@@ -71,7 +65,7 @@ class PhotoDomain(
     }
 
     private fun saveSearch(photoSearchDomainData: PhotoSearchDomainData) {
-        photoRepository.saveLast(photoSearchDomainData)
+        photoRepository.saveSearch(photoSearchDomainData)
     }
 
     private fun broadcastSearchEvent(photoSearchDomainData: PhotoSearchDomainData) {

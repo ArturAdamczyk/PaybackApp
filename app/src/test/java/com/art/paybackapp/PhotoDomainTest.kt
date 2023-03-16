@@ -1,9 +1,7 @@
 package com.art.paybackapp
 
 import com.art.paybackapp.common.TestSchedulers
-import com.art.paybackapp.data.network.mapper.PhotoSearchDtoMapper
 import com.art.paybackapp.data.network.model.PhotoSearchDto
-import com.art.paybackapp.data.network.service.PhotoApi
 import com.art.paybackapp.data.repository.PhotoRepository
 import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
@@ -18,11 +16,7 @@ import org.junit.jupiter.api.BeforeEach
 
 class PhotoDomainTest {
 
-    private val photoApi: PhotoApi by lazy { mockk<PhotoApi>() }
-
     private val photoDomainEvents: PhotoDomainEvents by lazy { mockk<PhotoDomainEvents>() }
-
-    private val photoSearchDtoMapper: PhotoSearchDtoMapper by lazy { mockk<PhotoSearchDtoMapper>() }
 
     private val photoSearchEventFactory: PhotoSearchEventFactory by lazy { mockk<PhotoSearchEventFactory>() }
 
@@ -40,12 +34,10 @@ class PhotoDomainTest {
 
         serviceUnderTest = spyk(
             PhotoDomain(
-                photoApi,
-                photoSearchDtoMapper,
+                photoRepository,
                 schedulers,
                 photoDomainEvents,
                 photoSearchEventFactory,
-                photoRepository,
                 photoSearchDomainDataFactory
             ),
             recordPrivateCalls = true
@@ -59,19 +51,16 @@ class PhotoDomainTest {
 
         val searchPhrase = "zebra"
         val photoSearchState = PhotoSearchState.Ready
-        val photoSearchDto = PhotoDomainTestDataSet.photoSearchDto_zebra
         val photoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebra
         val photosDomainData =  PhotoDomainTestDataSet.photosDomainData_zebra
         val photoSearchEvent = PhotoSearchEvent(photoSearchState, photoSearchDomainData)
 
-
         val slots = mutableListOf<PhotoSearchEvent>()
         every { photoDomainEvents.search.onNext(capture(slots)) } just Runs
-        every { photoApi.search(any()) } answers { Single.just(photoSearchDto) }
-        every { photoSearchDtoMapper.mapFrom(any()) } returns photosDomainData
+        every { photoRepository.search(any()) } answers { Single.just(photosDomainData) }
         every { photoSearchDomainDataFactory.create(any(), any<String>()) } returns photoSearchDomainData
         every { photoSearchEventFactory.ready(any()) } returns photoSearchEvent
-        every { photoRepository.saveLast(any()) } just Runs
+        every { photoRepository.saveSearch(any()) } just Runs
 
         // When:
 
@@ -81,9 +70,8 @@ class PhotoDomainTest {
         // Then:
 
         verify {
-            photoApi.search(any())
-            photoSearchDtoMapper.mapFrom(any())
-            photoRepository.saveLast(any())
+            photoRepository.search(any())
+            photoRepository.saveSearch(any())
             photoSearchEventFactory.ready(any())
             photoDomainEvents.search.onNext(capture(slots))
         }
@@ -100,7 +88,6 @@ class PhotoDomainTest {
 
         val searchPhrase = "zebra"
         val photoSearchState = PhotoSearchState.Ready
-        val photoSearchDto = PhotoDomainTestDataSet.photoSearchDto_zebra
         val previousPhotoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebra
         val photoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebraMore
         val photosDomainData =  PhotoDomainTestDataSet.photosDomainData_zebra
@@ -109,12 +96,11 @@ class PhotoDomainTest {
 
         val slots = mutableListOf<PhotoSearchEvent>()
         every { photoDomainEvents.search.onNext(capture(slots)) } just Runs
-        every { photoApi.search(any(), any()) } answers { Single.just(photoSearchDto) }
-        every { photoSearchDtoMapper.mapFrom(any()) } returns photosDomainData
+        every { photoRepository.search(any(), any()) } answers { Single.just(photosDomainData) }
         every { photoSearchDomainDataFactory.create(any(), any<PhotoSearchDomainData>()) } returns photoSearchDomainData
         every { photoSearchEventFactory.ready(any()) } returns photoSearchEvent
-        every { photoRepository.saveLast(any()) } just Runs
-        every { photoRepository.getLast() } returns previousPhotoSearchDomainData
+        every { photoRepository.saveSearch(any()) } just Runs
+        every { photoRepository.lastSearch() } returns previousPhotoSearchDomainData
 
         // When:
 
@@ -124,10 +110,9 @@ class PhotoDomainTest {
         // Then:
 
         verify {
-            photoApi.search(any(), any())
-            photoSearchDtoMapper.mapFrom(any())
+            photoRepository.search(any(), any())
             photoSearchDomainDataFactory.create(any(), any<PhotoSearchDomainData>())
-            photoRepository.saveLast(any())
+            photoRepository.saveSearch(any())
             photoSearchEventFactory.ready(any())
             photoDomainEvents.search.onNext(capture(slots))
         }
@@ -144,18 +129,16 @@ class PhotoDomainTest {
 
         val searchPhrase = "zebra"
         val photoSearchState = PhotoSearchState.Ready
-        val photoSearchDto = PhotoDomainTestDataSet.photoSearchDto_zebra
         val previousPhotoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebra
         val photoSearchDomainData =  PhotoDomainTestDataSet.photoSearchDomainData_zebraMore
         val photosDomainData =  PhotoDomainTestDataSet.photosDomainData_zebra
         val photoSearchEvent = PhotoSearchEvent(photoSearchState, photoSearchDomainData)
 
-        every { photoApi.search(any()) } answers { Single.just(photoSearchDto) }
-        every { photoSearchDtoMapper.mapFrom(any()) } returns photosDomainData
+        every { photoRepository.search(any(), any()) } answers { Single.just(photosDomainData) }
         every { photoSearchDomainDataFactory.create(any(), any<PhotoSearchDomainData>()) } returns previousPhotoSearchDomainData
         every { photoSearchEventFactory.ready(any()) } returns photoSearchEvent
-        every { photoRepository.saveLast(any()) } just Runs
-        every { photoRepository.getLast() } returns null
+        every { photoRepository.saveSearch(any()) } just Runs
+        every { photoRepository.lastSearch() } returns null
 
         // When:
 
@@ -166,7 +149,7 @@ class PhotoDomainTest {
 
         verify {
             photoDomainEvents.search wasNot Called
-            photoApi.search(any()) wasNot Called
+            photoRepository.search(any()) wasNot Called
         }
 
     }
@@ -194,11 +177,10 @@ class PhotoDomainTest {
 
         val slots = mutableListOf<PhotoSearchEvent>()
         every { photoDomainEvents.search.onNext(capture(slots)) } just Runs
-        every { photoApi.search(any()) } answers { Single.just(photoSearchDto) }
-        every { photoSearchDtoMapper.mapFrom(any()) } returns photosDomainData
+        every { photoRepository.search(any(), any()) } answers { Single.just(photosDomainData) }
         every { photoSearchDomainDataFactory.create(any(), any<String>()) } returns photoSearchDomainData
         every { photoSearchEventFactory.empty() } returns photoSearchEvent
-        every { photoRepository.saveLast(any()) } just Runs
+        every { photoRepository.saveSearch(any()) } just Runs
 
         // When:
 
@@ -208,9 +190,8 @@ class PhotoDomainTest {
         // Then:
 
         verify {
-            photoApi.search(any())
-            photoSearchDtoMapper.mapFrom(any())
-            photoRepository.saveLast(any())
+            photoRepository.search(any())
+            photoRepository.saveSearch(any())
             photoSearchEventFactory.empty()
             photoDomainEvents.search.onNext(capture(slots))
         }
@@ -232,9 +213,9 @@ class PhotoDomainTest {
 
         val slots = mutableListOf<PhotoSearchEvent>()
         every { photoDomainEvents.search.onNext(capture(slots)) } just Runs
-        every { photoApi.search(any()) } answers { Single.error(Exception()) }
+        every { photoRepository.search(any(), any()) } answers { Single.error(Exception()) }
         every { photoSearchEventFactory.error() } returns photoSearchEvent
-        every { photoRepository.saveLast(any()) } just Runs
+        every { photoRepository.saveSearch(any()) } just Runs
 
         // When:
 
@@ -244,7 +225,7 @@ class PhotoDomainTest {
         // Then:
 
         verify {
-            photoApi.search(any())
+            photoRepository.search(any())
             photoSearchEventFactory.error()
             photoDomainEvents.search.onNext(capture(slots))
         }
