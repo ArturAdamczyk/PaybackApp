@@ -2,11 +2,11 @@ package com.art.paybackapp
 
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.model.*
-import com.art.paybackapp.presentation.screens.detail.PhotoDetailDisplayable
-import com.art.paybackapp.presentation.screens.detail.PhotoDetailDisplayableFactory
+import com.art.paybackapp.presentation.screens.detail.model.PhotoDetailDisplayable
+import com.art.paybackapp.presentation.screens.detail.model.PhotoDetailDisplayableFactory
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailScreenState
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailViewModel
-import com.art.paybackapp.presentation.screens.search.PhotoDisplayable
+import com.art.paybackapp.presentation.screens.search.model.PhotoDisplayable
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.Assertions
@@ -85,6 +85,30 @@ class PhotoDetailViewModelTest {
         }
 
         Assertions.assertTrue(serviceUnderTest.state().value is PhotoDetailScreenState.ShowPhoto)
+
+    }
+
+    @Test
+    fun `GIVEN no photo WHEN loadPhoto is invoked THEN screen state should be set to NoPhoto`() {
+
+        // Given
+
+        val searchEvent = null
+        val photoId = 1
+
+        every { photoDomainEvents.lastSearch() } returns searchEvent
+
+        // When:
+
+        serviceUnderTest.loadPhoto(photoId)
+
+        // Then:
+
+        verify {
+            photoDomainEvents.lastSearch()
+        }
+
+        Assertions.assertTrue(serviceUnderTest.state().value is PhotoDetailScreenState.NoPhoto)
 
     }
 

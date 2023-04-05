@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
-import com.art.paybackapp.presentation.screens.search.PhotoDisplayable
+import com.art.paybackapp.presentation.screens.search.model.PhotoDisplayable
 
 @Composable
 fun LazyPhotoList(

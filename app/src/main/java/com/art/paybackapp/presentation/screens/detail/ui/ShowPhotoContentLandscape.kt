@@ -15,7 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.art.paybackapp.presentation.screens.detail.PhotoDetailDisplayable
+import com.art.paybackapp.presentation.screens.detail.model.PhotoDetailDisplayable
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 

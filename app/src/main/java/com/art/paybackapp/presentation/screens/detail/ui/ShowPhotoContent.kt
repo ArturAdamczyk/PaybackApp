@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.art.paybackapp.presentation.screens.detail.PhotoDetailDisplayable
+import com.art.paybackapp.presentation.screens.detail.model.PhotoDetailDisplayable
 
 @Composable
 fun ShowPhotoContent(

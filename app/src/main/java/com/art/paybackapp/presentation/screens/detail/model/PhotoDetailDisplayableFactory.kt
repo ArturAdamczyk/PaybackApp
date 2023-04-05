@@ -1,9 +1,9 @@
-package com.art.paybackapp.presentation.screens.detail
+package com.art.paybackapp.presentation.screens.detail.model
 
 import android.content.res.Resources
 import com.art.paybackapp.R
 import com.art.paybackapp.domain.model.PhotoDomainData
-import com.art.paybackapp.presentation.screens.search.PhotoDisplayable
+import com.art.paybackapp.presentation.screens.search.model.PhotoDisplayable
 import javax.inject.Inject
 
 class PhotoDetailDisplayableFactory @Inject constructor(

@@ -1,13 +1,13 @@
 package com.art.paybackapp
 
-import com.art.paybackapp.common.TestSchedulers
+import com.art.paybackapp.common_android.TestSchedulers
 import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.model.PhotoSearchDomainData
 import com.art.paybackapp.domain.model.PhotoSearchEvent
 import com.art.paybackapp.domain.model.PhotoSearchState
-import com.art.paybackapp.presentation.screens.search.PhotoSearchDisplayable
-import com.art.paybackapp.presentation.screens.search.PhotoSearchDisplayableFactory
+import com.art.paybackapp.presentation.screens.search.model.PhotoSearchDisplayable
+import com.art.paybackapp.presentation.screens.search.model.PhotoSearchDisplayableFactory
 import com.art.paybackapp.presentation.screens.search.PhotoSearchScreenState
 import com.art.paybackapp.presentation.screens.search.PhotoSearchViewModel
 import io.mockk.*

@@ -14,6 +14,7 @@ fun PhotoDetailScreen(
 
     when (viewState) {
         is PhotoDetailScreenState.Initial -> {}
+        is PhotoDetailScreenState.NoPhoto -> {}
         is PhotoDetailScreenState.ShowPhoto -> {
             ShowPhoto(viewState.photoSearchDisplayable)
         }

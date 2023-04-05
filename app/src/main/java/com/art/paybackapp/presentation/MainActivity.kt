@@ -11,8 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.art.paybackapp.base.BaseActivity
-import com.art.paybackapp.base.BaseViewModel
+import com.art.paybackapp.common_android.base.BaseActivity
+import com.art.paybackapp.common_android.base.BaseViewModel
 import com.art.paybackapp.presentation.screens.detail.PhotoDetailViewModel
 import com.art.paybackapp.presentation.screens.search.PhotoSearchViewModel
 import com.art.paybackapp.presentation.ui.styles.PaybackAppTheme
@@ -25,8 +25,8 @@ class MainActivity : BaseActivity() {
     private val photoDetailViewModel: PhotoDetailViewModel by viewModels()
     override fun initializeViewModels(): HashMap<String, BaseViewModel> {
         return hashMapOf(
-            PhotoSearchViewModel.name to photoSearchViewModel,
-            PhotoDetailViewModel.name to photoDetailViewModel
+            photoSearchViewModel.toString() to photoSearchViewModel,
+            photoDetailViewModel.toString() to photoDetailViewModel
         )
     }
 

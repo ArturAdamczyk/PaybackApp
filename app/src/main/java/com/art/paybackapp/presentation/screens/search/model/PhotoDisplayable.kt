@@ -1,4 +1,4 @@
-package com.art.paybackapp.presentation.screens.search
+package com.art.paybackapp.presentation.screens.search.model
 
 data class PhotoDisplayable(
     val id: Int,

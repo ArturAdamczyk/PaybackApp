@@ -17,7 +17,7 @@ import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.PhotoSearchEventFactory
 import com.art.paybackapp.domain.model.PhotoSearchDomainDataFactory
-import com.art.paybackapp.utils.AppLocale
+import com.art.paybackapp.common_android.AppLocale
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

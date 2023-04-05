@@ -1,5 +1,6 @@
-package com.art.paybackapp.common
+package com.art.paybackapp.common_android
 
+import com.art.paybackapp.common.AppSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.TestScheduler
 

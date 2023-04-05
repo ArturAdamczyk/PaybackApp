@@ -1,8 +1,8 @@
 package com.art.paybackapp.di
 
 import android.content.res.Resources
-import com.art.paybackapp.presentation.screens.detail.PhotoDetailDisplayableFactory
-import com.art.paybackapp.presentation.screens.search.PhotoSearchDisplayableFactory
+import com.art.paybackapp.presentation.screens.detail.model.PhotoDetailDisplayableFactory
+import com.art.paybackapp.presentation.screens.search.model.PhotoSearchDisplayableFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

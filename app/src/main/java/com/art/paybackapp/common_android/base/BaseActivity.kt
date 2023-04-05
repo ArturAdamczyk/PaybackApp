@@ -1,4 +1,4 @@
-package com.art.paybackapp.base
+package com.art.paybackapp.common_android.base
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

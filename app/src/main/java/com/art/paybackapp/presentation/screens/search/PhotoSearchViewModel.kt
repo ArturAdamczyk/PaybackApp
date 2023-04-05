@@ -1,12 +1,14 @@
 package com.art.paybackapp.presentation.screens.search
 
-import com.art.paybackapp.base.BaseViewModel
+import com.art.paybackapp.common_android.base.BaseViewModel
 import com.art.paybackapp.common.AppSchedulers
 import com.art.paybackapp.common.asyncToMain
 import com.art.paybackapp.domain.PhotoDomain
 import com.art.paybackapp.domain.PhotoDomainEvents
 import com.art.paybackapp.domain.model.PhotoSearchEvent
 import com.art.paybackapp.domain.model.PhotoSearchState
+import com.art.paybackapp.presentation.screens.search.model.PhotoSearchDisplayable
+import com.art.paybackapp.presentation.screens.search.model.PhotoSearchDisplayableFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -22,9 +24,6 @@ class PhotoSearchViewModel @Inject constructor(
     private val photoSearchDisplayableFactory: PhotoSearchDisplayableFactory,
     private val schedulers: AppSchedulers
 ) : BaseViewModel() {
-    companion object {
-        internal val name: String = PhotoSearchViewModel::class.java.name
-    }
 
     private val state = MutableStateFlow<PhotoSearchScreenState>(PhotoSearchScreenState.Initial)
     fun state(): StateFlow<PhotoSearchScreenState> = state

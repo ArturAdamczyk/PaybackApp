@@ -1,6 +1,6 @@
 package com.art.paybackapp.data.network.provider
 
-import com.art.paybackapp.utils.AppLocale
+import com.art.paybackapp.common_android.AppLocale
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

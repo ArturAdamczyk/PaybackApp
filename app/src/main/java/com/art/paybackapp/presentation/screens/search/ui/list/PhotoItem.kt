@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.art.paybackapp.R
-import com.art.paybackapp.presentation.screens.search.PhotoDisplayable
+import com.art.paybackapp.presentation.screens.search.model.PhotoDisplayable
 import com.art.paybackapp.presentation.ui.composables.DialogPrompt
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage

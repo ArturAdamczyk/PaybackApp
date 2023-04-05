@@ -3,8 +3,8 @@ package com.art.paybackapp.di
 import android.content.Context
 import android.content.res.Resources
 import com.art.paybackapp.common.AppSchedulers
-import com.art.paybackapp.common.MainSchedulers
-import com.art.paybackapp.utils.AppLocale
+import com.art.paybackapp.common_android.MainSchedulers
+import com.art.paybackapp.common_android.AppLocale
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

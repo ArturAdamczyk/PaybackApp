@@ -1,6 +1,6 @@
 package com.art.paybackapp
 
-import com.art.paybackapp.common.TestSchedulers
+import com.art.paybackapp.common_android.TestSchedulers
 import com.art.paybackapp.data.network.model.PhotoSearchDto
 import com.art.paybackapp.data.repository.PhotoRepository
 import com.art.paybackapp.domain.PhotoDomain
